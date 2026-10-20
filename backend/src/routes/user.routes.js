@@ -20,6 +20,8 @@ router.get(
       .withMessage('Status must be PENDING, ACTIVE, or DEACTIVATED'),
     query('search')
       .optional()
+      .isString()
+      .withMessage('Search term must be a string')
       .trim()
       .isLength({ max: 100 })
       .withMessage('Search term must be at most 100 characters'),

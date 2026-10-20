@@ -2,16 +2,20 @@ const express = require('express');
 const { body } = require('express-validator');
 const validate = require('../middleware/validate');
 const authenticate = require('../middleware/authenticate');
+const { loginRateLimiter, registerRateLimiter } = require('../middleware/rateLimit');
 const { register, login, adminLogin, me } = require('../controllers/auth.controller');
 
 const router = express.Router();
 
 router.post(
   '/register',
+  registerRateLimiter,
   [
     body('name')
       .exists({ checkFalsy: true })
       .withMessage('Name is required')
+      .isString()
+      .withMessage('Name must be a string')
       .trim()
       .isLength({ min: 2, max: 100 })
       .withMessage('Name must be between 2 and 100 characters'),
@@ -33,6 +37,7 @@ router.post(
 
 router.post(
   '/login',
+  loginRateLimiter,
   [
     body('email')
       .trim()
@@ -50,6 +55,7 @@ router.post(
 
 router.post(
   '/admin/login',
+  loginRateLimiter,
   [
     body('email')
       .trim()

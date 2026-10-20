@@ -17,6 +17,8 @@ router.post(
   authorize('MANAGER', 'ADMIN'),
   [
     body('name')
+      .isString()
+      .withMessage('Name must be a string')
       .trim()
       .isLength({ min: 2, max: 150 })
       .withMessage('Name must be between 2 and 150 characters'),
@@ -51,6 +53,8 @@ router.get(
   [
     query('search')
       .optional()
+      .isString()
+      .withMessage('Search term must be a string')
       .trim()
       .isLength({ max: 100 })
       .withMessage('Search term must be at most 100 characters'),
@@ -105,6 +109,8 @@ router.patch(
     param('id').isUUID().withMessage('Invalid project id'),
     body('name')
       .optional()
+      .isString()
+      .withMessage('Name must be a string')
       .trim()
       .isLength({ min: 2, max: 150 })
       .withMessage('Name must be between 2 and 150 characters'),

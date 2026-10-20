@@ -3,6 +3,7 @@ const { query } = require('express-validator');
 const validate = require('../middleware/validate');
 const authenticate = require('../middleware/authenticate');
 const { authorize } = require('../middleware/authorize');
+const { asyncHandler } = require('../middleware/errorHandler');
 const { ACTIONS } = require('../services/activityLog');
 const { getActivity } = require('../controllers/activity.controller');
 
@@ -48,7 +49,7 @@ router.get(
       .withMessage('to must be a valid ISO8601 date'),
   ],
   validate,
-  getActivity
+  asyncHandler(getActivity)
 );
 
 module.exports = router;

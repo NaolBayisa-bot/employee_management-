@@ -16,6 +16,8 @@ router.post(
   authorize('MANAGER', 'ADMIN'),
   [
     body('title')
+      .isString()
+      .withMessage('Title must be a string')
       .trim()
       .isLength({ min: 2, max: 200 })
       .withMessage('Title must be between 2 and 200 characters'),
@@ -74,6 +76,8 @@ router.patch(
     param('id').isUUID().withMessage('Invalid task id'),
     body('title')
       .optional()
+      .isString()
+      .withMessage('Title must be a string')
       .trim()
       .isLength({ min: 2, max: 200 })
       .withMessage('Title must be between 2 and 200 characters'),
