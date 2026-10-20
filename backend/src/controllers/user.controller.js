@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const { User } = require('../models');
+const { ACTIONS, log } = require('../services/activityLog');
 
 // GET /users — list users with optional status and search filters
 exports.listUsers = async (req, res) => {
@@ -56,6 +57,14 @@ exports.approveUser = async (req, res) => {
   user.status = 'ACTIVE';
   await user.save();
 
+  await log({
+    actorId: req.user.id,
+    action: ACTIONS.USER_APPROVED,
+    entityType: 'USER',
+    entityId: user.id,
+    meta: { userName: user.name, role: user.role },
+  });
+
   return res.status(200).json({ user });
 };
 
@@ -84,8 +93,17 @@ exports.changeRole = async (req, res) => {
     return res.status(400).json({ message: 'User must be ACTIVE' });
   }
 
+  const oldRole = user.role;
   user.role = role;
   await user.save();
+
+  await log({
+    actorId: req.user.id,
+    action: ACTIONS.USER_ROLE_CHANGED,
+    entityType: 'USER',
+    entityId: user.id,
+    meta: { userName: user.name, from: oldRole, to: role },
+  });
 
   return res.status(200).json({ user });
 };
@@ -117,6 +135,14 @@ exports.deactivateUser = async (req, res) => {
   user.status = 'DEACTIVATED';
   await user.save();
 
+  await log({
+    actorId: req.user.id,
+    action: ACTIONS.USER_DEACTIVATED,
+    entityType: 'USER',
+    entityId: user.id,
+    meta: { userName: user.name },
+  });
+
   return res.status(200).json({ user });
 };
 
@@ -146,6 +172,14 @@ exports.reactivateUser = async (req, res) => {
 
   user.status = 'ACTIVE';
   await user.save();
+
+  await log({
+    actorId: req.user.id,
+    action: ACTIONS.USER_REACTIVATED,
+    entityType: 'USER',
+    entityId: user.id,
+    meta: { userName: user.name },
+  });
 
   return res.status(200).json({ user });
 };
