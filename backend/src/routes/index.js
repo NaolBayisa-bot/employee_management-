@@ -2,11 +2,15 @@ const express = require('express');
 const router = express.Router();
 const authRoutes = require('./auth.routes');
 const userRoutes = require('./user.routes');
+const projectRoutes = require('./project.routes');
 
 // Mount auth routes under /auth
 router.use('/auth', authRoutes);
 
 // Mount user management routes under /users (admin only)
 router.use('/users', userRoutes);
+
+// Mount project routes under /projects
+router.use('/projects', projectRoutes);
 
 module.exports = router;
