@@ -99,3 +99,8 @@ exports.adminLogin = async (req, res) => {
     throw error;
   }
 };
+
+// GET /auth/me — returns the current authenticated user
+exports.me = async (req, res) => {
+  res.status(200).json({ user: req.user });
+};
