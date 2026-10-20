@@ -1,5 +1,6 @@
 const { sequelize, Project, ProjectMember, Task, User } = require('../models');
 const { isProjectMember } = require('./project.controller');
+const { ACTIONS, log } = require('../services/activityLog');
 
 // POST /tasks — create a task (MANAGER, ADMIN only)
 exports.createTask = async (req, res) => {
@@ -59,6 +60,26 @@ exports.createTask = async (req, res) => {
     assigneeId ? User.findByPk(assigneeId, { attributes: ['id', 'name'] }) : null,
     User.findByPk(userId, { attributes: ['id', 'name'] }),
   ]);
+
+  await log({
+    actorId: req.user.id,
+    action: ACTIONS.TASK_CREATED,
+    entityType: 'TASK',
+    entityId: task.id,
+    projectId: task.projectId,
+    meta: { taskTitle: task.title, projectName: project.name },
+  });
+
+  if (assignee) {
+    await log({
+      actorId: req.user.id,
+      action: ACTIONS.TASK_ASSIGNED,
+      entityType: 'TASK',
+      entityId: task.id,
+      projectId: task.projectId,
+      meta: { taskTitle: task.title, assigneeName: assignee.name },
+    });
+  }
 
   return res.status(201).json({
     task: {
@@ -243,6 +264,13 @@ exports.updateTask = async (req, res) => {
   }
 
   // projectId is IGNORED (cannot move task to another project)
+  // Capture old values before modification for change tracking
+  const oldTitle = task.title;
+  const oldDescription = task.description;
+  const oldDueDate = task.dueDate;
+  const oldPriority = task.priority;
+  const oldAssigneeId = task.assigneeId;
+
   if (title !== undefined) task.title = title;
   if (description !== undefined) task.description = description;
   if (dueDate !== undefined) task.dueDate = dueDate; // null clears it
@@ -271,12 +299,51 @@ exports.updateTask = async (req, res) => {
 
   await task.save();
 
+  // Log TASK_UPDATED for non-assignee field changes
+  const changedFields = [];
+  if (title !== undefined && title !== oldTitle) changedFields.push('title');
+  if (description !== undefined && description !== oldDescription) changedFields.push('description');
+  if (dueDate !== undefined && dueDate !== oldDueDate) changedFields.push('dueDate');
+  if (priority !== undefined && priority !== oldPriority) changedFields.push('priority');
+
+  if (changedFields.length > 0) {
+    await log({
+      actorId: req.user.id,
+      action: ACTIONS.TASK_UPDATED,
+      entityType: 'TASK',
+      entityId: task.id,
+      projectId: task.projectId,
+      meta: { taskTitle: task.title, changes: changedFields },
+    });
+  }
+
   // Fetch related data for response
   const [project, assignee, createdBy] = await Promise.all([
     Project.findByPk(task.projectId, { attributes: ['id', 'name'] }),
     task.assigneeId ? User.findByPk(task.assigneeId, { attributes: ['id', 'name'] }) : null,
     User.findByPk(task.createdById, { attributes: ['id', 'name'] }),
   ]);
+
+  // Log TASK_ASSIGNED if assignee changed
+  if (assigneeId !== undefined && assigneeId !== oldAssigneeId) {
+    let previousAssigneeName = null;
+    if (oldAssigneeId) {
+      const prevAssignee = await User.findByPk(oldAssigneeId, { attributes: ['name'] });
+      previousAssigneeName = prevAssignee ? prevAssignee.name : null;
+    }
+    await log({
+      actorId: req.user.id,
+      action: ACTIONS.TASK_ASSIGNED,
+      entityType: 'TASK',
+      entityId: task.id,
+      projectId: task.projectId,
+      meta: {
+        taskTitle: task.title,
+        assigneeName: assignee ? assignee.name : null,
+        previousAssigneeName,
+      },
+    });
+  }
 
   return res.status(200).json({
     task: {
@@ -318,8 +385,21 @@ exports.updateTaskStatus = async (req, res) => {
     }
   }
 
+  const oldStatus = task.status;
   task.status = status;
   await task.save();
+
+  // Log only if status actually changed
+  if (status !== oldStatus) {
+    await log({
+      actorId: req.user.id,
+      action: ACTIONS.TASK_STATUS_CHANGED,
+      entityType: 'TASK',
+      entityId: task.id,
+      projectId: task.projectId,
+      meta: { taskTitle: task.title, from: oldStatus, to: status },
+    });
+  }
 
   // Fetch related data for response
   const [project, assignee, createdBy] = await Promise.all([

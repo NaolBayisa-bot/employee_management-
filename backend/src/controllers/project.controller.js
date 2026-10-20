@@ -1,5 +1,6 @@
 const { sequelize, Project, ProjectMember, User } = require('../models');
 const { Op } = require('sequelize');
+const { ACTIONS, log } = require('../services/activityLog');
 
 // Helper: check if a user is a member of a project
 async function isProjectMember(userId, projectId) {
@@ -27,6 +28,15 @@ exports.createProject = async (req, res) => {
     );
 
     return project;
+  });
+
+  await log({
+    actorId: req.user.id,
+    action: ACTIONS.PROJECT_CREATED,
+    entityType: 'PROJECT',
+    entityId: project.id,
+    projectId: project.id,
+    meta: { projectName: project.name },
   });
 
   const memberCount = await ProjectMember.count({
@@ -132,11 +142,38 @@ exports.updateProject = async (req, res) => {
     }
   }
 
+  // Capture old values before modification
+  const oldName = project.name;
+  const oldDescription = project.description;
+  const oldStatus = project.status;
+
   if (name !== undefined) project.name = name;
   if (description !== undefined) project.description = description;
   if (status !== undefined) project.status = status;
 
   await project.save();
+
+  // Log only if something actually changed
+  const changedFields = [];
+  if (name !== undefined && name !== oldName) changedFields.push('name');
+  if (description !== undefined && description !== oldDescription) changedFields.push('description');
+  if (status !== undefined && status !== oldStatus) changedFields.push('status');
+
+  if (changedFields.length > 0) {
+    const meta = { projectName: project.name, changes: changedFields };
+    if (status !== undefined && status !== oldStatus) {
+      meta.from = oldStatus;
+      meta.to = status;
+    }
+    await log({
+      actorId: req.user.id,
+      action: ACTIONS.PROJECT_UPDATED,
+      entityType: 'PROJECT',
+      entityId: project.id,
+      projectId: project.id,
+      meta,
+    });
+  }
 
   const owner = await User.findByPk(project.ownerId, {
     attributes: ['id', 'name'],
@@ -199,6 +236,15 @@ exports.addMember = async (req, res) => {
 
   // Add as member
   await ProjectMember.create({ projectId: id, userId: userId });
+
+  await log({
+    actorId: req.user.id,
+    action: ACTIONS.MEMBER_ADDED,
+    entityType: 'PROJECT',
+    entityId: project.id,
+    projectId: project.id,
+    meta: { projectName: project.name, userName: targetUser.name },
+  });
 
   // Fetch updated member list (only id, name, role)
   const projectWithMembers = await Project.findByPk(id, {
