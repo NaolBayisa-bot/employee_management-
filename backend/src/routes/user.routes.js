@@ -3,7 +3,7 @@ const { body, param, query } = require('express-validator');
 const validate = require('../middleware/validate');
 const authenticate = require('../middleware/authenticate');
 const { authorize } = require('../middleware/authorize');
-const { listUsers, approveUser } = require('../controllers/user.controller');
+const { listUsers, approveUser, changeRole, deactivateUser, reactivateUser } = require('../controllers/user.controller');
 
 const router = express.Router();
 
@@ -39,6 +39,35 @@ router.patch(
   ],
   validate,
   approveUser
+);
+
+// PATCH /users/:id/role — change role of an ACTIVE user
+router.patch(
+  '/:id/role',
+  [
+    param('id').isUUID().withMessage('Invalid user id'),
+    body('role')
+      .isIn(['MANAGER', 'EMPLOYEE'])
+      .withMessage('Role must be MANAGER or EMPLOYEE'),
+  ],
+  validate,
+  changeRole
+);
+
+// PATCH /users/:id/deactivate — deactivate an ACTIVE or PENDING user
+router.patch(
+  '/:id/deactivate',
+  [param('id').isUUID().withMessage('Invalid user id')],
+  validate,
+  deactivateUser
+);
+
+// PATCH /users/:id/reactivate — reactivate a DEACTIVATED user with a role
+router.patch(
+  '/:id/reactivate',
+  [param('id').isUUID().withMessage('Invalid user id')],
+  validate,
+  reactivateUser
 );
 
 module.exports = router;

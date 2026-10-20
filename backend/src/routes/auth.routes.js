@@ -2,7 +2,6 @@ const express = require('express');
 const { body } = require('express-validator');
 const validate = require('../middleware/validate');
 const authenticate = require('../middleware/authenticate');
-const { authorize } = require('../middleware/authorize');
 const { register, login, adminLogin, me } = require('../controllers/auth.controller');
 
 const router = express.Router();
@@ -68,10 +67,5 @@ router.post(
 
 // GET /auth/me — protected by authenticate middleware
 router.get('/me', authenticate, me);
-
-// TEMPORARY: remove in Task 10
-router.get('/admin-check', authenticate, authorize('ADMIN'), (req, res) => {
-  res.status(200).json({ ok: true });
-});
 
 module.exports = router;
