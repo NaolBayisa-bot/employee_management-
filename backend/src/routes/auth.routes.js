@@ -1,0 +1,33 @@
+const express = require('express');
+const { body } = require('express-validator');
+const validate = require('../middleware/validate');
+const { register } = require('../controllers/auth.controller');
+
+const router = express.Router();
+
+router.post(
+  '/register',
+  [
+    body('name')
+      .exists({ checkFalsy: true })
+      .withMessage('Name is required')
+      .trim()
+      .isLength({ min: 2, max: 100 })
+      .withMessage('Name must be between 2 and 100 characters'),
+    body('email')
+      .trim()
+      .isEmail()
+      .withMessage('Must be a valid email address')
+      .normalizeEmail({ gmail_removeDots: false }),
+    body('password')
+      .exists({ checkFalsy: true })
+      .withMessage('Password is required')
+      .isString()
+      .isLength({ min: 8, max: 72 })
+      .withMessage('Password must be between 8 and 72 characters'),
+  ],
+  validate,
+  register
+);
+
+module.exports = router;
