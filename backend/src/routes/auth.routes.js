@@ -1,7 +1,7 @@
 const express = require('express');
 const { body } = require('express-validator');
 const validate = require('../middleware/validate');
-const { register } = require('../controllers/auth.controller');
+const { register, login, adminLogin } = require('../controllers/auth.controller');
 
 const router = express.Router();
 
@@ -28,6 +28,40 @@ router.post(
   ],
   validate,
   register
+);
+
+router.post(
+  '/login',
+  [
+    body('email')
+      .trim()
+      .isEmail()
+      .withMessage('Must be a valid email address')
+      .normalizeEmail({ gmail_removeDots: false }),
+    body('password')
+      .exists({ checkFalsy: true })
+      .withMessage('Password is required')
+      .isString(),
+  ],
+  validate,
+  login
+);
+
+router.post(
+  '/admin/login',
+  [
+    body('email')
+      .trim()
+      .isEmail()
+      .withMessage('Must be a valid email address')
+      .normalizeEmail({ gmail_removeDots: false }),
+    body('password')
+      .exists({ checkFalsy: true })
+      .withMessage('Password is required')
+      .isString(),
+  ],
+  validate,
+  adminLogin
 );
 
 module.exports = router;
