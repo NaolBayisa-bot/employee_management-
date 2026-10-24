@@ -21,6 +21,8 @@ class AppTextField extends StatefulWidget {
     this.enabled = true,
     this.focusNode,
     this.initialValue,
+    this.onFieldSubmitted,
+    this.textInputAction,
   });
 
   final TextEditingController? controller;
@@ -37,6 +39,8 @@ class AppTextField extends StatefulWidget {
   final bool enabled;
   final FocusNode? focusNode;
   final String? initialValue;
+  final void Function(String)? onFieldSubmitted;
+  final TextInputAction? textInputAction;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -114,8 +118,10 @@ class _AppTextFieldState extends State<AppTextField> {
             widget.multiline ? TextInputType.multiline : widget.keyboardType,
         maxLines: widget.multiline ? 4 : 1,
         minLines: widget.multiline ? 3 : 1,
+        textInputAction: widget.textInputAction,
         validator: widget.validator,
         onChanged: widget.onChanged,
+        onFieldSubmitted: widget.onFieldSubmitted,
         style: const TextStyle(
           color: AppColors.textPrimary,
           fontSize: 14,

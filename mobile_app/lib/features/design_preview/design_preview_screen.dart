@@ -24,6 +24,7 @@ import '../../shared/widgets/info_row.dart';
 import '../../shared/widgets/loading_view.dart';
 import '../../shared/widgets/mono_text.dart';
 import '../../shared/widgets/section_header.dart';
+import '../auth/widgets/auth_header.dart';
 import '../../shared/widgets/status_chip.dart';
 
 /// Design-preview gallery route that displays all design system widgets with
@@ -629,6 +630,25 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                   ],
                 ),
               ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          const SectionHeader(title: '10. AuthHeader'),
+          GlassCard(
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.xl),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const AuthHeader(),
+                  const SizedBox(height: AppSpacing.xl),
+                  const AuthHeader(
+                    icon: Icons.person_outline,
+                    title: 'Welcome Back',
+                    subtitle: 'Enter your email to continue.',
+                  ),
+                ],
+              ),
             ),
           ),
         ],

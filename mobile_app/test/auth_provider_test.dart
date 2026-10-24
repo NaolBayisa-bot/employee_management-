@@ -19,8 +19,11 @@ import 'package:mobile_app/core/network/api_exception.dart';
 import 'package:mobile_app/core/storage/secure_storage.dart';
 import 'package:mobile_app/features/auth/data/auth_repository.dart';
 import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/auth/screens/debug_auth_screen.dart';
+import 'package:mobile_app/features/auth/screens/login_screen.dart';
+import 'package:mobile_app/core/theme/app_theme.dart';
+import 'package:mobile_app/shared/widgets/app_background.dart';
 import 'package:mobile_app/shared/models/user.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ---------------------------------------------------------------------------
 // Helpers: JWT tokens + fakes
@@ -184,7 +187,24 @@ List<Override> _o(_Fixtures f) => [
 
 // ---------------------------------------------------------------------------
 
+/// Wrap [child] in a themed [MaterialApp] (dark glassmorphism theme + ambient
+/// background) under a [ProviderScope] with the given auth overrides.
+Widget _wrap(Widget child, [List<Override>? overrides]) => ProviderScope(
+      overrides: overrides ?? const [],
+      child: MaterialApp(
+        theme: AppTheme.darkTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: ThemeMode.dark,
+        builder: (context, child) => AppBackground(child: child!),
+        home: child,
+      ),
+    );
+
 void main() {
+  // Silence GoogleFonts runtime network fetches in tests (mirrors
+  // test/widgets_test.dart).
+  GoogleFonts.config.allowRuntimeFetching = false;
+
   group('AuthRepository', () {
     test('login persists token and returns the hydrated user', () async {
       final f = _Fixtures()..loginOk('jwt-token-123');
@@ -409,40 +429,142 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
-  // Debug screen widget test (logged-in view shows name/role/status)
+  // LoginScreen widget tests (Task 7 acceptance)
   // ---------------------------------------------------------------------------
 
-  testWidgets('DebugAuthScreen shows Login form when logged out', (WidgetTester tester) async {
-    final f = _Fixtures();
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: _o(f),
-        child: const MaterialApp(home: DebugAuthScreen()),
-      ),
-    );
-    await tester.pumpAndSettle();
+  group('LoginScreen (Task 7)', () {
+    testWidgets('logged out: shows the form and fires no request',
+        (WidgetTester tester) async {
+      final f = _Fixtures();
+      await tester.pumpWidget(_wrap(const LoginScreen(), _o(f)));
+      await tester.pumpAndSettle();
 
-    expect(find.text('Task Manager'), findsOneWidget);
-    expect(find.text('Login'), findsOneWidget);
-    expect(find.byType(TextField), findsNWidgets(2)); // email + password
-  });
+      expect(find.text('Welcome'), findsOneWidget); // AuthHeader title
+      expect(find.text('Sign in to continue'), findsOneWidget); // subtitle
+      expect(find.text('Login'), findsOneWidget); // AppButton label
+      expect(f.api._calls, isEmpty);
+    });
 
-  testWidgets('DebugAuthScreen shows logged-in user name/role/status', (WidgetTester tester) async {
-    final f = _Fixtures()
-      ..meOk()
-      ..storage._token = _validToken();
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: _o(f),
-        child: const MaterialApp(home: DebugAuthScreen()),
-      ),
-    );
-    await tester.pumpAndSettle();
+    testWidgets('empty form: shows validator messages and sends no request',
+        (WidgetTester tester) async {
+      final f = _Fixtures();
+      await tester.pumpWidget(_wrap(const LoginScreen(), _o(f)));
+      await tester.pumpAndSettle();
 
-    expect(find.text('Name: Admin One'), findsOneWidget);
-    expect(find.text('Role: ADMIN'), findsOneWidget);
-    expect(find.text('Status: ACTIVE'), findsOneWidget);
-    expect(find.text('Logout'), findsOneWidget);
+      await tester.tap(find.text('Login'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Email is required'), findsOneWidget);
+      expect(find.text('Password is required'), findsOneWidget);
+      expect(f.api._calls, isEmpty,
+          reason: 'no login call before the form is valid');
+    });
+
+    testWidgets('invalid email: shows "Enter a valid email", no request',
+        (WidgetTester tester) async {
+      final f = _Fixtures();
+      await tester.pumpWidget(_wrap(const LoginScreen(), _o(f)));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byKey(const Key('email_field')), 'not-an-email');
+      await tester.enterText(find.byKey(const Key('password_field')), 'pw');
+      await tester.tap(find.text('Login'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Enter a valid email'), findsOneWidget);
+      expect(f.api._calls, isEmpty);
+    });
+
+    testWidgets('wrong password -> inline "Invalid email or password"',
+        (WidgetTester tester) async {
+      final f = _Fixtures()
+        ..loginError(ApiException(message: 'Invalid email or password', statusCode: 401));
+      await tester.pumpWidget(_wrap(const LoginScreen(), _o(f)));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byKey(const Key('email_field')), 'admin@example.com');
+      await tester.enterText(find.byKey(const Key('password_field')), 'bad');
+      await tester.tap(find.text('Login'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Invalid email or password'), findsOneWidget);
+      expect(find.text('Login'), findsOneWidget); // still on the form
+      expect(find.text('Logged in'), findsNothing);
+      expect(f.storage.token, isNull);
+      expect(f.api._calls, ['POST /auth/login']);
+    });
+
+    testWidgets('deactivated user -> inline "Account deactivated"',
+        (WidgetTester tester) async {
+      final f = _Fixtures()
+        ..loginError(ApiException(message: 'Account deactivated', statusCode: 403));
+      await tester.pumpWidget(_wrap(const LoginScreen(), _o(f)));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byKey(const Key('email_field')), 'admin@example.com');
+      await tester.enterText(find.byKey(const Key('password_field')), 'pw');
+      await tester.tap(find.text('Login'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Account deactivated'), findsOneWidget);
+      expect(find.text('Logged in'), findsNothing);
+      expect(f.storage.token, isNull);
+    });
+
+    testWidgets('correct login -> reaches the temporary logged-in view',
+        (WidgetTester tester) async {
+      final f = _Fixtures()..loginOk('jwt-token-123');
+      await tester.pumpWidget(_wrap(const LoginScreen(), _o(f)));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byKey(const Key('email_field')), 'admin@example.com');
+      await tester.enterText(find.byKey(const Key('password_field')), 'pw');
+      await tester.tap(find.text('Login'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Admin One'), findsOneWidget);
+      expect(find.text('ADMIN'), findsOneWidget);
+      expect(find.text('ACTIVE'), findsOneWidget);
+      expect(find.text('Logout'), findsOneWidget);
+      expect(find.text('Logged in'), findsOneWidget);
+      expect(f.storage.token, 'jwt-token-123');
+      expect(f.api._calls, ['POST /auth/login']);
+    });
+
+    testWidgets('no overflow on a small screen with the keyboard open',
+        (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(320, 568);
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+      });
+
+      final f = _Fixtures();
+      // Simulate the on-screen keyboard taking ~280px: inject viewInsets via a
+      // MediaQuery above the Scaffold so Scaffold.resizeToAvoidBottomInset
+      // (and the SingleChildScrollView) gets them. FakeViewPadding isn't part
+      // of the public flutter_test API, so this avoids it.
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: _o(f),
+          child: MaterialApp(
+            theme: AppTheme.darkTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: ThemeMode.dark,
+            builder: (context, child) => AppBackground(child: child!),
+            home: MediaQuery(
+              data: MediaQueryData(
+                viewInsets: EdgeInsets.only(bottom: 280),
+              ),
+              child: const LoginScreen(),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('Login'), findsOneWidget);
+    });
   });
 
   // Sanity check for the JWT helpers above.

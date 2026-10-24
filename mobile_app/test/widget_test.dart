@@ -6,7 +6,7 @@ import 'package:mobile_app/core/storage/secure_storage.dart';
 import 'package:mobile_app/main.dart';
 
 /// In-memory TokenStorage so the widget test never touches the OS keychain
-/// (which is unavailable under flutter_test) and so the app starts logged out.
+/// (unavailable under flutter_test) and so the app starts logged out.
 class _FakeStorage extends TokenStorage {
   _FakeStorage() : super(const FlutterSecureStorage());
   String? _token;
@@ -19,7 +19,7 @@ class _FakeStorage extends TokenStorage {
 }
 
 void main() {
-  testWidgets('App shows Task Manager text and the debug Login screen',
+  testWidgets('App home is the LoginScreen (logged-out form)',
       (WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
@@ -31,10 +31,10 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // The old, hardcoded "Test API" placeholder (Task 3) must be gone.
+    // The old Task 3 placeholder is gone.
     expect(find.text('Test API'), findsNothing);
-    // The temporary debug auth screen is now the home and shows "Login".
-    expect(find.text('Task Manager'), findsOneWidget);
+    // AuthHeader title + the Login button are present.
+    expect(find.text('Welcome'), findsOneWidget);
     expect(find.text('Login'), findsOneWidget);
   });
 }
