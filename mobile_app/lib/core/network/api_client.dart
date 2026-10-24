@@ -90,11 +90,24 @@ class ApiClient {
   }
 }
 
-/// Provider for [ApiClient]. Internally creates a [Dio] instance with the
-/// base URL from [AppConfig], 15-second timeouts, JSON headers, and an
-/// interceptor that attaches the JWT token.
-final apiClientProvider = Provider<ApiClient>((ref) {
+/// A [StateProvider] that holds an [ApiException] when a 401 Unauthorized
+/// is received on a non-auth route (e.g. token expired or revoked).
+/// The auth provider listens to this in Task 4.
+final unauthorizedEventProvider =
+    StateProvider<ApiException?>((ref) => null);
+
+/// Provider for the fully-configured [Dio] instance.
+///
+/// Configures:
+/// - [AppConfig.apiBaseUrl] as the base URL
+/// - 15-second connect and receive timeouts
+/// - JSON content/response type headers
+/// - An interceptor that attaches the JWT token from [TokenStorage]
+///   to every request and notifies [unauthorizedEventProvider] on 401s
+///   for non-auth routes.
+final dioProvider = Provider<Dio>((ref) {
   final tokenStorage = ref.read(tokenStorageProvider);
+
   final dio = Dio(
     BaseOptions(
       baseUrl: AppConfig.apiBaseUrl,
@@ -129,19 +142,13 @@ final apiClientProvider = Provider<ApiClient>((ref) {
     ),
   );
 
-  return ApiClient(dio);
+  return dio;
 });
 
-/// A [StateProvider] that holds an [ApiException] when a 401 Unauthorized
-/// is received on a non-auth route (e.g. token expired or revoked).
-/// The auth provider listens to this in Task 4.
-final unauthorizedEventProvider =
-    StateProvider<ApiException?>((ref) => null);
-
-/// Provider exposing the raw [Dio] instance for direct use if needed.
-final dioProvider = Provider<Dio>((ref) {
-  // The Dio instance is created inside apiClientProvider, so we read it back.
-  // However, for testing or direct access, we create a standalone instance.
-  // Note: this does NOT have the interceptor attached.
-  return Dio(BaseOptions(baseUrl: AppConfig.apiBaseUrl));
+/// Provider for [ApiClient]. Depends on [dioProvider] so the configured
+/// [Dio] instance is created once and shared, and every [DioException]
+/// is converted into an [ApiException].
+final apiClientProvider = Provider<ApiClient>((ref) {
+  final dio = ref.watch(dioProvider);
+  return ApiClient(dio);
 });
