@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class TaskManagerHome extends ConsumerStatefulWidget {
-  // TEMPORARY, remove in Task 4.
+  // TODO: Remove "Test API" button in Task 4.
   const TaskManagerHome({super.key});
 
   @override
@@ -37,14 +37,12 @@ class _TaskManagerHomeState extends ConsumerState<TaskManagerHome> {
       final apiClient = ref.read(apiClientProvider);
       final response = await apiClient.get('/health');
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Health: ${response.data}')),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Health: ${response.data}')));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -59,7 +57,7 @@ class _TaskManagerHomeState extends ConsumerState<TaskManagerHome> {
           children: [
             const Text('Task Manager'),
             const SizedBox(height: 16),
-            // TEMPORARY, remove in Task 4.
+            // TODO: Remove "Test API" button in Task 4.
             ElevatedButton(
               onPressed: _isLoading ? null : _testApi,
               child: _isLoading
