@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../shared/models/project.dart';
 import '../../shared/models/task.dart';
 import '../../shared/models/user.dart';
 
@@ -93,6 +94,14 @@ abstract final class AppColors {
   static const Color tertiary = Color(0xFF3B82F6);
   static const Color onTertiary = Color(0xFFFFFFFF);
 
+  // --- Button Gradients & Glows ---
+  static const LinearGradient buttonGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF22D3EE), Color(0xFF3B82F6)],
+  );
+  static const Color buttonGlow = Color(0x5922D3EE);
+
   // --- Semantic Feedback ---
   static const Color error = Color(0xFFEF4444);
   static const Color onError = Color(0xFFFFFFFF);
@@ -160,6 +169,15 @@ abstract final class AppColors {
   static const Color userStatusDeactivated = Color(0xFFEF4444);
   static const Color userStatusDeactivatedFill = Color(0x26EF4444);
   static const Color userStatusDeactivatedBorder = Color(0x59EF4444);
+
+  // --- Project Status Colors ---
+  static const Color projectStatusActive = Color(0xFF10B981);
+  static const Color projectStatusActiveFill = Color(0x2610B981);
+  static const Color projectStatusActiveBorder = Color(0x5910B981);
+
+  static const Color projectStatusArchived = Color(0xFF94A3B8);
+  static const Color projectStatusArchivedFill = Color(0x2694A3B8);
+  static const Color projectStatusArchivedBorder = Color(0x5994A3B8);
 
   // --- Surface Containers ---
   static const Color surface = Color(0xFF0F131F);
@@ -266,6 +284,23 @@ abstract final class AppColors {
           text: userStatusDeactivated,
           fill: userStatusDeactivatedFill,
           border: userStatusDeactivatedBorder,
+        );
+    }
+  }
+
+  static StatusColorToken forProjectStatus(ProjectStatus status) {
+    switch (status) {
+      case ProjectStatus.active:
+        return const StatusColorToken(
+          text: projectStatusActive,
+          fill: projectStatusActiveFill,
+          border: projectStatusActiveBorder,
+        );
+      case ProjectStatus.archived:
+        return const StatusColorToken(
+          text: projectStatusArchived,
+          fill: projectStatusArchivedFill,
+          border: projectStatusArchivedBorder,
         );
     }
   }

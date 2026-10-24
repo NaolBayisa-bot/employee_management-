@@ -10,12 +10,14 @@
 // which [AuthRepository.login] surfaces as an [ApiException] -> shown as a
 // SnackBar.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/api_exception.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../shared/models/user.dart';
+import '../../design_preview/design_preview_screen.dart';
 import '../providers/auth_provider.dart';
 
 class DebugAuthScreen extends ConsumerStatefulWidget {
@@ -79,6 +81,15 @@ class _DebugAuthScreenState extends ConsumerState<DebugAuthScreen> {
         // "Task Manager" is kept here so the existing widget test
         // (find.text('Task Manager')) continues to pass.
         title: const Text('Task Manager'),
+        actions: [
+          if (kDebugMode)
+            IconButton(
+              tooltip: 'Design Preview Gallery',
+              icon: const Icon(Icons.palette_outlined),
+              onPressed: () => Navigator.of(context)
+                  .pushNamed(DesignPreviewScreen.routeName),
+            ),
+        ],
       ),
       body: Center(
         child: asyncUser.when(
@@ -118,6 +129,15 @@ class _DebugAuthScreenState extends ConsumerState<DebugAuthScreen> {
                   onPressed: _login,
                   child: const Text('Login'),
                 ),
+          if (kDebugMode) ...[
+            const SizedBox(height: AppSpacing.md),
+            TextButton.icon(
+              icon: const Icon(Icons.palette_outlined, size: 16),
+              label: const Text('Design Preview (/design-preview)'),
+              onPressed: () => Navigator.of(context)
+                  .pushNamed(DesignPreviewScreen.routeName),
+            ),
+          ],
         ]),
       );
     }
