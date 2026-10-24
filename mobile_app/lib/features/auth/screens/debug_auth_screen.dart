@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/api_exception.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../shared/models/user.dart';
 import '../providers/auth_provider.dart';
 
@@ -64,7 +65,7 @@ class _DebugAuthScreenState extends ConsumerState<DebugAuthScreen> {
     await ref.read(authProvider.notifier).logout();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Logged out')),
+        const SnackBar(content: Text('Logged out')),
       );
     }
   }
@@ -93,20 +94,20 @@ class _DebugAuthScreenState extends ConsumerState<DebugAuthScreen> {
     if (user == null) {
       // Logged out: show the login form.
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           TextField(
             controller: _emailController,
             decoration: const InputDecoration(labelText: 'Email'),
             keyboardType: TextInputType.emailAddress,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           TextField(
             controller: _passwordController,
             decoration: const InputDecoration(labelText: 'Password'),
             obscureText: true,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xl),
           _submitting
               ? const SizedBox(
                   width: 20,
@@ -126,11 +127,11 @@ class _DebugAuthScreenState extends ConsumerState<DebugAuthScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text('Name: ${user.name}', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         Text('Role: ${user.role?.toServerValue() ?? '—'}'),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         Text('Status: ${user.status.toServerValue()}'),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xl),
         ElevatedButton(onPressed: _logout, child: const Text('Logout')),
       ],
     );
@@ -141,12 +142,12 @@ class _DebugAuthScreenState extends ConsumerState<DebugAuthScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text('Error: $error', style: TextStyle(color: Theme.of(context).colorScheme.error)),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.lg),
         ElevatedButton(
           onPressed: () => ref.read(authProvider.notifier).refreshMe(),
           child: const Text('Retry'),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         TextButton(onPressed: _logout, child: const Text('Logout')),
       ],
     );
