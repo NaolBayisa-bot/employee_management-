@@ -16,7 +16,7 @@ import 'package:mobile_app/features/auth/providers/auth_provider.dart';
 import 'package:mobile_app/features/auth/widgets/auth_header.dart';
 import 'package:mobile_app/shared/models/user.dart';
 import 'package:mobile_app/shared/widgets/app_button.dart';
-import 'package:mobile_app/shared/widgets/app_snack_bar.dart';
+import 'package:mobile_app/features/auth/screens/register_screen.dart';
 import 'package:mobile_app/shared/widgets/app_text_field.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -150,9 +150,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           const SizedBox(height: AppSpacing.md),
           TextButton(
             onPressed: () {
-              // Registration opens in Task 9; surface a friendly placeholder now
-              // so the button is not an inert no-op.
-              AppSnackBar.showSuccess(context, 'Registration is not available yet.');
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const RegisterScreen()),
+              );
             },
             child: Text(
               'Create account',
