@@ -7,14 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:mobile_app/features/admin/screens/dashboard_screen.dart';
 import 'package:mobile_app/features/auth/providers/auth_provider.dart';
 import 'package:mobile_app/features/auth/screens/deactivated_screen.dart';
-import 'package:mobile_app/features/auth/screens/home_screen.dart';
 import 'package:mobile_app/features/auth/screens/login_screen.dart';
 import 'package:mobile_app/features/auth/screens/register_screen.dart';
 import 'package:mobile_app/features/auth/screens/splash_screen.dart';
 import 'package:mobile_app/features/auth/screens/waiting_approval_screen.dart';
 import 'package:mobile_app/features/design_preview/design_preview_screen.dart';
+import 'package:mobile_app/features/home/screens/main_shell.dart';
+import 'package:mobile_app/features/profile/screens/profile_screen.dart';
+import 'package:mobile_app/features/projects/screens/projects_screen.dart';
+import 'package:mobile_app/features/tasks/screens/my_tasks_screen.dart';
 import 'package:mobile_app/shared/models/user.dart';
 import 'package:mobile_app/shared/widgets/error_view.dart';
 
@@ -60,12 +64,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'deactivated',
         builder: (context, state) => const DeactivatedScreen(),
       ),
-      // Home screen (ACTIVE users) - placeholder for now
-      GoRoute(
-        path: '/home',
-        name: 'home',
-        builder: (context, state) => const HomeScreen(),
-      ),
+      // Main shell with role-based tabs (ACTIVE users)
+      buildMainShellRoute(),
       // Design preview gallery (debug only)
       if (const bool.fromEnvironment('dart.vm.product') == false)
         GoRoute(
@@ -80,12 +80,26 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         child: ErrorView(
           title: 'Page Not Found',
           message: 'The page you are looking for does not exist.',
-          onRetry: () => context.go('/home'),
+          onRetry: () => context.go(_getHomeRouteForRole(
+            (ref.read(authProvider).valueOrNull)?.role ?? Role.employee,
+          )),
         ),
       ),
     ),
   );
 });
+
+/// Returns the home route path for a given role (first tab).
+String _getHomeRouteForRole(Role role) {
+  switch (role) {
+    case Role.admin:
+      return DashboardScreen.routeName; // '/dashboard'
+    case Role.manager:
+      return ProjectsScreen.routeName; // '/projects'
+    case Role.employee:
+      return MyTasksScreen.routeName; // '/my-tasks'
+  }
+}
 
 /// Core redirect logic based on authentication state and user status.
 ///
@@ -95,7 +109,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 /// - logged out (AsyncData(null)) -> /login (allow /register)
 /// - PENDING -> /waiting
 /// - DEACTIVATED -> /deactivated
-/// - ACTIVE -> /home
+/// - ACTIVE -> first tab route based on role
 /// - Logged-in users can never access /login, /register, /waiting
 String? _redirectLogic(AsyncValue<User?> authState, String location) {
   // 1. Auth is loading -> show splash
@@ -131,7 +145,7 @@ String? _redirectLogic(AsyncValue<User?> authState, String location) {
       case UserStatus.deactivated:
         return '/deactivated';
       case UserStatus.active:
-        return '/home';
+        return _getHomeRouteForRole(user.role ?? Role.employee);
     }
   }
 
@@ -144,7 +158,17 @@ String? _redirectLogic(AsyncValue<User?> authState, String location) {
       if (location != '/deactivated') return '/deactivated';
       break;
     case UserStatus.active:
-      if (location != '/home') return '/home';
+      final homeRoute = _getHomeRouteForRole(user.role ?? Role.employee);
+      // Check if location is one of the valid shell routes
+      final validShellRoutes = [
+        DashboardScreen.routeName,
+        ProjectsScreen.routeName,
+        MyTasksScreen.routeName,
+        ProfileScreen.routeName,
+      ];
+      if (!validShellRoutes.contains(location)) {
+        return homeRoute;
+      }
       break;
   }
 
