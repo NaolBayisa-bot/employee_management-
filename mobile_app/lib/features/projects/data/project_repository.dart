@@ -4,6 +4,8 @@
 // backend/src/controllers/project.controller.js and backend/README.md:
 //   GET  /projects              -> { projects, page, limit, total, totalPages }
 //   (with optional status query parameter: ACTIVE, ARCHIVED)
+//   GET  /projects/:id          -> { project } (with members, no counts)
+//   GET  /projects/:id/tasks    -> { tasks }
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/network/api_client.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../shared/models/project.dart';
+import '../../../shared/models/task.dart';
 
 /// Paginated project list response.
 @immutable
@@ -86,6 +89,55 @@ class ProjectRepository {
     }
 
     return ProjectListResponse.fromJson(data);
+  }
+
+  /// Fetches a single project by ID.
+  ///
+  /// GET /projects/:id
+  /// Returns project detail with members (no counts).
+  Future<Project> getProject(String id) async {
+    final response = await _apiClient.get('/projects/$id');
+
+    final data = response.data;
+    if (data is! Map<String, dynamic>) {
+      throw ApiException(
+        message: 'Unexpected response from /projects/$id',
+      );
+    }
+
+    final projectJson = data['project'];
+    if (projectJson is! Map) {
+      throw ApiException(
+        message: 'Unexpected response format from /projects/$id',
+      );
+    }
+
+    return Project.fromJson(Map<String, dynamic>.from(projectJson));
+  }
+
+  /// Fetches tasks for a project.
+  ///
+  /// GET /projects/:id/tasks
+  /// Returns list of tasks with assignee info.
+  Future<List<Task>> getProjectTasks(String projectId) async {
+    final response = await _apiClient.get('/projects/$projectId/tasks');
+
+    final data = response.data;
+    if (data is! Map<String, dynamic>) {
+      throw ApiException(
+        message: 'Unexpected response from /projects/$projectId/tasks',
+      );
+    }
+
+    final tasksRaw = data['tasks'];
+    if (tasksRaw is! List) {
+      return const <Task>[];
+    }
+
+    return tasksRaw
+        .whereType<Map>()
+        .map((m) => Task.fromJson(Map<String, dynamic>.from(m)))
+        .toList(growable: false);
   }
 }
 

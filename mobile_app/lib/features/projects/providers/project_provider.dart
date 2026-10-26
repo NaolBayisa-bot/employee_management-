@@ -6,6 +6,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../shared/models/project.dart';
+import '../../../shared/models/task.dart';
 import '../data/project_repository.dart';
 
 /// Provider for projects filtered by status.
@@ -33,3 +34,19 @@ final filteredProjectsProvider = FutureProvider<List<Project>>((ref) async {
     error: (error, stack) => throw error,
   );
 });
+
+/// Provider for a single project by ID.
+final projectProvider = FutureProvider.family<Project, String>(
+  (ref, projectId) async {
+    final repository = ref.read(projectRepositoryProvider);
+    return repository.getProject(projectId);
+  },
+);
+
+/// Provider for project tasks by project ID.
+final projectTasksProvider = FutureProvider.family<List<Task>, String>(
+  (ref, projectId) async {
+    final repository = ref.read(projectRepositoryProvider);
+    return repository.getProjectTasks(projectId);
+  },
+);

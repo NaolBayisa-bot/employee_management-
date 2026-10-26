@@ -18,6 +18,7 @@ import 'package:mobile_app/features/auth/screens/waiting_approval_screen.dart';
 import 'package:mobile_app/features/design_preview/design_preview_screen.dart';
 import 'package:mobile_app/features/home/screens/main_shell.dart';
 import 'package:mobile_app/features/profile/screens/profile_screen.dart';
+import 'package:mobile_app/features/projects/screens/project_detail_screen.dart';
 import 'package:mobile_app/features/projects/screens/projects_screen.dart';
 import 'package:mobile_app/features/tasks/screens/my_tasks_screen.dart';
 import 'package:mobile_app/shared/models/user.dart';
@@ -69,11 +70,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       // Main shell with role-based tabs (ACTIVE users)
       buildMainShellRoute(),
-      // Project detail placeholder (Task 14)
+      // Project detail (Task 14)
       GoRoute(
         path: '/projects/:id',
         name: 'project-detail',
-        builder: (context, state) => _ProjectDetailPlaceholder(projectId: state.pathParameters['id']!),
+        builder: (context, state) => ProjectDetailScreen(projectId: state.pathParameters['id']!),
       ),
       // Project creation placeholder (Task 15)
       GoRoute(
@@ -189,53 +190,6 @@ String? _redirectLogic(AsyncValue<User?> authState, String location) {
 
   // No redirect needed
   return null;
-}
-
-/// Placeholder for project detail screen (Task 14).
-class _ProjectDetailPlaceholder extends StatelessWidget {
-  const _ProjectDetailPlaceholder({required this.projectId});
-
-  final String projectId;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.folder_outlined, size: 48, color: AppColors.textSecondary),
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                'Project Detail',
-                style: GoogleFonts.inter(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                'Project ID: $projectId',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              AppButton(
-                label: 'Back to Projects',
-                variant: AppButtonVariant.primary,
-                onPressed: () => context.go('/projects'),
-                fullWidth: false,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 /// Placeholder for project creation screen (Task 15).

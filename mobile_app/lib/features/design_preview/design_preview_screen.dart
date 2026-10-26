@@ -32,6 +32,7 @@ import '../projects/widgets/member_tile.dart';
 import '../projects/widgets/project_card.dart';
 import '../projects/widgets/project_form.dart';
 import '../projects/widgets/project_status_filter.dart';
+import '../tasks/widgets/task_list_tile.dart';
 
 /// Design-preview gallery route that displays all design system widgets with
 /// sample data, edge cases, and interactive triggers.
@@ -985,6 +986,68 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 ProjectStatusFilter(
                   selected: ProjectStatus.archived,
                   onChanged: (v) {},
+                ),
+              ],
+            ),
+          ),
+          // 11. Task Feature Widgets
+          const SectionHeader(title: '11. Task Feature Widgets'),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'TaskListTile — with assignee',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskListTile(
+                  task: Task(
+                    id: 't1',
+                    title: 'Design new dashboard layout',
+                    status: TaskStatus.todo,
+                    priority: TaskPriority.high,
+                    projectId: 'p1',
+                    assignee: UserRef(id: 'u1', name: 'Alice Johnson'),
+                    createdAt: DateTime(2024, 1, 15),
+                  ),
+                  onTap: () {},
+                ),
+                const Divider(color: AppColors.divider, height: AppSpacing.md),
+                const Text(
+                  'TaskListTile — unassigned with long title',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskListTile(
+                  task: Task(
+                    id: 't2',
+                    title: 'This is a very long task title that should be truncated properly in the UI',
+                    status: TaskStatus.inProgress,
+                    priority: TaskPriority.medium,
+                    projectId: 'p1',
+                    assignee: null,
+                    createdAt: DateTime(2024, 1, 16),
+                  ),
+                  onTap: () {},
+                ),
+                const Divider(color: AppColors.divider, height: AppSpacing.md),
+                const Text(
+                  'TaskListTile — completed task',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskListTile(
+                  task: Task(
+                    id: 't3',
+                    title: 'Fix login bug',
+                    status: TaskStatus.done,
+                    priority: TaskPriority.low,
+                    projectId: 'p1',
+                    assignee: UserRef(id: 'u2', name: 'Bob Smith'),
+                    createdAt: DateTime(2024, 1, 10),
+                  ),
+                  onTap: () {},
                 ),
               ],
             ),
