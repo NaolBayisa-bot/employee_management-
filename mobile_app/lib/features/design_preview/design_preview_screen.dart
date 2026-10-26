@@ -25,6 +25,7 @@ import '../../shared/widgets/loading_view.dart';
 import '../../shared/widgets/mono_text.dart';
 import '../../shared/widgets/section_header.dart';
 import '../auth/widgets/auth_header.dart';
+import '../auth/widgets/status_message_view.dart';
 import '../../shared/widgets/status_chip.dart';
 
 /// Design-preview gallery route that displays all design system widgets with
@@ -646,6 +647,93 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                     icon: Icons.person_outline,
                     title: 'Welcome Back',
                     subtitle: 'Enter your email to continue.',
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          const SectionHeader(title: '11. StatusMessageView'),
+          GlassCard(
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.xl),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Waiting for Approval (warning icon)',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  StatusMessageView(
+                    icon: Icons.hourglass_top_rounded,
+                    title: 'Awaiting Approval',
+                    message: 'Your account is pending admin approval. '
+                        'You will be able to access the app once an admin activates your account.',
+                    iconColor: AppColors.warning,
+                    iconBackgroundColor: AppColors.warningFill,
+                    actions: [
+                      AppButton(
+                        label: 'Check Again',
+                        onPressed: () {},
+                        variant: AppButtonVariant.primary,
+                      ),
+                      AppButton(
+                        label: 'Logout',
+                        onPressed: () {},
+                        variant: AppButtonVariant.secondary,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  const Text(
+                    'Deactivated Account (error icon)',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  StatusMessageView(
+                    icon: Icons.block_rounded,
+                    title: 'Account Deactivated',
+                    message: 'Your account has been deactivated. '
+                        'Please contact support if you believe this is a mistake.',
+                    iconColor: AppColors.error,
+                    iconBackgroundColor: AppColors.errorFill,
+                    actions: [
+                      AppButton(
+                        label: 'Logout',
+                        onPressed: () {},
+                        variant: AppButtonVariant.primary,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  const Text(
+                    'Custom Icon/Colors Example',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  StatusMessageView(
+                    icon: Icons.check_circle_outline,
+                    title: 'Success State',
+                    message: 'This shows a custom success icon with green colors.',
+                    iconColor: AppColors.success,
+                    iconBackgroundColor: AppColors.successFill,
+                    actions: [
+                      AppButton(
+                        label: 'Continue',
+                        onPressed: () {},
+                        variant: AppButtonVariant.primary,
+                      ),
+                    ],
                   ),
                 ],
               ),

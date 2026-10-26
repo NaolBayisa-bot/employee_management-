@@ -1,10 +1,11 @@
 // Register screen.
 //
 // Built from the shared design-system widgets (AuthHeader, AppTextField, AppButton)
-// per Task 8. Until Task 9, navigation uses simple Navigator pushes.
+// per Task 8. Navigation uses go_router (Task 9).
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile_app/core/network/api_exception.dart';
@@ -198,7 +199,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           ),
           const SizedBox(height: AppSpacing.md),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.go('/login'),
             child: Text(
               'Already have an account? Login',
               style: GoogleFonts.roboto(
@@ -234,7 +235,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         AppButton(
           label: 'Back to Login',
           variant: AppButtonVariant.primary,
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.go('/login'),
         ),
       ],
     );

@@ -12,14 +12,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import 'package:mobile_app/core/network/api_client.dart';
 import 'package:mobile_app/core/network/api_exception.dart';
+import 'package:mobile_app/core/router/app_router.dart';
 import 'package:mobile_app/core/storage/secure_storage.dart';
 import 'package:mobile_app/features/auth/data/auth_repository.dart';
 import 'package:mobile_app/features/auth/providers/auth_provider.dart';
+import 'package:mobile_app/features/auth/screens/deactivated_screen.dart';
+import 'package:mobile_app/features/auth/screens/home_screen.dart';
 import 'package:mobile_app/features/auth/screens/login_screen.dart';
+import 'package:mobile_app/features/auth/screens/waiting_approval_screen.dart';
 import 'package:mobile_app/core/theme/app_theme.dart';
 import 'package:mobile_app/shared/widgets/app_background.dart';
 import 'package:mobile_app/shared/models/user.dart';
@@ -199,6 +204,112 @@ Widget _wrap(Widget child, [List<Override>? overrides]) => ProviderScope(
         home: child,
       ),
     );
+
+/// Wrap [child] in a themed [MaterialApp.router] with a test router,
+/// under a [ProviderScope] with the given auth overrides.
+/// This is used for tests that need go_router navigation.
+Widget _wrapWithRouter(Widget child, [List<Override>? overrides]) {
+  // Create a notifier to trigger router refresh when auth state changes
+  final refreshNotifier = ValueNotifier<int>(0);
+
+  final testRouter = GoRouter(
+    initialLocation: '/login',
+    debugLogDiagnostics: true,
+    refreshListenable: refreshNotifier,
+    redirect: (context, state) {
+      final container = ProviderScope.containerOf(context, listen: false);
+      final authState = container.read(authProvider);
+      final location = state.matchedLocation;
+
+      // Same redirect logic as app_router.dart
+      if (authState is AsyncLoading) {
+        return location == '/splash' ? null : '/splash';
+      }
+      if (authState is AsyncError) {
+        return null;
+      }
+
+      final user = authState.valueOrNull;
+
+      if (user == null) {
+        if (location == '/login' || location == '/register') {
+          return null;
+        }
+        return '/login';
+      }
+
+      if (location == '/login' || location == '/register' || location == '/waiting') {
+        switch (user.status) {
+          case UserStatus.pending:
+            return '/waiting';
+          case UserStatus.deactivated:
+            return '/deactivated';
+          case UserStatus.active:
+            return '/home';
+        }
+      }
+
+      switch (user.status) {
+        case UserStatus.pending:
+          if (location != '/waiting') return '/waiting';
+          break;
+        case UserStatus.deactivated:
+          if (location != '/deactivated') return '/deactivated';
+          break;
+        case UserStatus.active:
+          if (location != '/home') return '/home';
+          break;
+      }
+
+      return null;
+    },
+    routes: [
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => child,
+      ),
+      GoRoute(
+        path: '/home',
+        name: 'home',
+        builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/waiting',
+        name: 'waiting',
+        builder: (context, state) => const WaitingApprovalScreen(),
+      ),
+      GoRoute(
+        path: '/deactivated',
+        name: 'deactivated',
+        builder: (context, state) => const DeactivatedScreen(),
+      ),
+    ],
+  );
+
+  // Listen to authProvider changes and trigger router refresh
+  // We do this by wrapping in a Consumer that listens to authProvider
+  return ProviderScope(
+    overrides: [
+      appRouterProvider.overrideWithValue(testRouter),
+      ...?overrides,
+    ],
+    child: Consumer(
+      builder: (context, ref, _) {
+        ref.listen<AsyncValue<User?>>(authProvider, (_, _) {
+          refreshNotifier.value++;
+        });
+        return MaterialApp.router(
+          theme: AppTheme.darkTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.dark,
+          builder: (context, child) => AppBackground(child: child!),
+          routerConfig: testRouter,
+        );
+      },
+    ),
+  );
+}
 
 void main() {
   // Silence GoogleFonts runtime network fetches in tests (mirrors
@@ -511,10 +622,10 @@ void main() {
       expect(f.storage.token, isNull);
     });
 
-    testWidgets('correct login -> reaches the temporary logged-in view',
+    testWidgets('correct login -> navigates to home screen',
         (WidgetTester tester) async {
       final f = _Fixtures()..loginOk('jwt-token-123');
-      await tester.pumpWidget(_wrap(const LoginScreen(), _o(f)));
+      await tester.pumpWidget(_wrapWithRouter(const LoginScreen(), _o(f)));
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byKey(const Key('email_field')), 'admin@example.com');
@@ -522,11 +633,11 @@ void main() {
       await tester.tap(find.text('Login'));
       await tester.pumpAndSettle();
 
+      // After login, should navigate to home screen
       expect(find.text('Admin One'), findsOneWidget);
       expect(find.text('ADMIN'), findsOneWidget);
       expect(find.text('ACTIVE'), findsOneWidget);
       expect(find.text('Logout'), findsOneWidget);
-      expect(find.text('Logged in'), findsOneWidget);
       expect(f.storage.token, 'jwt-token-123');
       expect(f.api._calls, ['POST /auth/login']);
     });

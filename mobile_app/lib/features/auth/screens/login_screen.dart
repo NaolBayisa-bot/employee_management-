@@ -1,22 +1,17 @@
-// TEMPORARY, replaced in Task 9.
-//
 // Login entry point. Built from the shared design-system widgets
 // (AuthHeader, AppTextField, AppButton) per Task 7. Replaces the hand-rolled
-// debug login from Task 4. Until Task 9, a successful login switches to a
-// temporary logged-in view (name/role/status + Logout) instead of navigating
-// to the real app shell.
+// debug login from Task 4. Navigation is handled by go_router (Task 9).
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile_app/core/network/api_exception.dart';
 import 'package:mobile_app/core/theme/app_tokens.dart';
 import 'package:mobile_app/features/auth/providers/auth_provider.dart';
 import 'package:mobile_app/features/auth/widgets/auth_header.dart';
-import 'package:mobile_app/shared/models/user.dart';
 import 'package:mobile_app/shared/widgets/app_button.dart';
-import 'package:mobile_app/features/auth/screens/register_screen.dart';
 import 'package:mobile_app/shared/widgets/app_text_field.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -58,8 +53,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             email: _emailController.text.trim(),
             password: _passwordController.text,
           );
-      // authProvider state is now AsyncData(user); the UI swaps to the
-      // temporary logged-in view automatically via ref.watch below.
+      // authProvider state is now AsyncData(user); go_router redirect will
+      // navigate to the appropriate screen based on user status.
     } on ApiException catch (e) {
       // Wrong password (401) and deactivated (403) both surface here as an
       // inline message; neither triggers an auto-logout (login is an auth route
@@ -74,8 +69,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(authProvider).valueOrNull;
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -85,7 +78,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             horizontal: AppSpacing.xl,
             vertical: AppSpacing.xl,
           ),
-          child: user == null ? _buildLoginForm() : _buildLoggedIn(user),
+          child: _buildLoginForm(),
         ),
       ),
     );
@@ -97,11 +90,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const AuthHeader(),
+          const AuthHeader(
+            icon: Icons.lock_rounded,
+            title: 'Welcome',
+            subtitle: 'Sign in to continue',
+          ),
           const SizedBox(height: AppSpacing.xl),
           AppTextField(
             key: const Key('email_field'),
-            controller: _emailController,
             label: 'Email',
             hint: 'you@example.com',
             keyboardType: TextInputType.emailAddress,
@@ -122,7 +118,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           const SizedBox(height: AppSpacing.md),
           AppTextField(
             key: const Key('password_field'),
-            controller: _passwordController,
             label: 'Password',
             isPassword: true,
             textInputAction: TextInputAction.done,
@@ -149,11 +144,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
           const SizedBox(height: AppSpacing.md),
           TextButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const RegisterScreen()),
-              );
-            },
+            onPressed: () => context.push('/register'),
             child: Text(
               'Create account',
               style: GoogleFonts.roboto(
@@ -165,43 +156,4 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
     );
   }
-
-  Widget _buildLoggedIn(User user) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const AuthHeader(
-          icon: Icons.check_circle_outline,
-          title: 'Logged in',
-          subtitle: 'You have a valid session.',
-        ),
-        const SizedBox(height: AppSpacing.xl),
-        _info('Name', user.name),
-        const SizedBox(height: AppSpacing.sm),
-        _info('Role', user.role?.toServerValue() ?? '—'),
-        const SizedBox(height: AppSpacing.sm),
-        _info('Status', user.status.toServerValue()),
-        const SizedBox(height: AppSpacing.xl),
-        AppButton(
-          label: 'Logout',
-          variant: AppButtonVariant.secondary,
-          onPressed: ref.read(authProvider.notifier).logout,
-        ),
-      ],
-    );
-  }
-
-  Widget _info(String label, String value) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label, style: TextStyle(color: AppColors.textSecondary)),
-          Text(value,
-              style: TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              )),
-        ],
-      );
 }
