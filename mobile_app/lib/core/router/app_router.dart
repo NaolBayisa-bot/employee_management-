@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile_app/features/admin/screens/dashboard_screen.dart';
 import 'package:mobile_app/features/auth/providers/auth_provider.dart';
@@ -20,7 +21,9 @@ import 'package:mobile_app/features/profile/screens/profile_screen.dart';
 import 'package:mobile_app/features/projects/screens/projects_screen.dart';
 import 'package:mobile_app/features/tasks/screens/my_tasks_screen.dart';
 import 'package:mobile_app/shared/models/user.dart';
+import 'package:mobile_app/shared/widgets/app_button.dart';
 import 'package:mobile_app/shared/widgets/error_view.dart';
+import 'package:mobile_app/core/theme/app_tokens.dart';
 
 /// Provider for the [GoRouter] instance.
 /// Listens to [authProvider] for authentication state changes and redirects accordingly.
@@ -66,6 +69,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       // Main shell with role-based tabs (ACTIVE users)
       buildMainShellRoute(),
+      // Project detail placeholder (Task 14)
+      GoRoute(
+        path: '/projects/:id',
+        name: 'project-detail',
+        builder: (context, state) => _ProjectDetailPlaceholder(projectId: state.pathParameters['id']!),
+      ),
+      // Project creation placeholder (Task 15)
+      GoRoute(
+        path: '/projects/new',
+        name: 'project-create',
+        builder: (context, state) => const _ProjectCreatePlaceholder(),
+      ),
       // Design preview gallery (debug only)
       if (const bool.fromEnvironment('dart.vm.product') == false)
         GoRoute(
@@ -174,4 +189,96 @@ String? _redirectLogic(AsyncValue<User?> authState, String location) {
 
   // No redirect needed
   return null;
+}
+
+/// Placeholder for project detail screen (Task 14).
+class _ProjectDetailPlaceholder extends StatelessWidget {
+  const _ProjectDetailPlaceholder({required this.projectId});
+
+  final String projectId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.folder_outlined, size: 48, color: AppColors.textSecondary),
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                'Project Detail',
+                style: GoogleFonts.inter(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                'Project ID: $projectId',
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              AppButton(
+                label: 'Back to Projects',
+                variant: AppButtonVariant.primary,
+                onPressed: () => context.go('/projects'),
+                fullWidth: false,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Placeholder for project creation screen (Task 15).
+class _ProjectCreatePlaceholder extends StatelessWidget {
+  const _ProjectCreatePlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.add_circle_outline, size: 48, color: AppColors.primary),
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                'Create Project',
+                style: GoogleFonts.inter(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                'Project creation form (Task 15)',
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              AppButton(
+                label: 'Back to Projects',
+                variant: AppButtonVariant.primary,
+                onPressed: () => context.go('/projects'),
+                fullWidth: false,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -24,9 +24,14 @@ import '../../shared/widgets/info_row.dart';
 import '../../shared/widgets/loading_view.dart';
 import '../../shared/widgets/mono_text.dart';
 import '../../shared/widgets/section_header.dart';
+import '../../shared/widgets/status_chip.dart';
 import '../auth/widgets/auth_header.dart';
 import '../auth/widgets/status_message_view.dart';
-import '../../shared/widgets/status_chip.dart';
+import '../projects/widgets/member_avatar_stack.dart';
+import '../projects/widgets/member_tile.dart';
+import '../projects/widgets/project_card.dart';
+import '../projects/widgets/project_form.dart';
+import '../projects/widgets/project_status_filter.dart';
 
 /// Design-preview gallery route that displays all design system widgets with
 /// sample data, edge cases, and interactive triggers.
@@ -737,6 +742,251 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                   ),
                 ],
               ),
+            ),
+          ),
+          // 10. Project Feature Widgets
+          const SectionHeader(title: '10. Project Feature Widgets'),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'ProjectCard — normal active project',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ProjectCard(
+                  project: Project(
+                    id: 'p1',
+                    name: 'Website Redesign',
+                    description: 'Complete overhaul of the company website with modern design system, improved accessibility, and responsive layouts.',
+                    status: ProjectStatus.active,
+                    owner: UserRef(id: 'u1', name: 'Alice Johnson'),
+                    memberCount: 5,
+                    taskCount: 12,
+                    createdAt: DateTime(2024, 1, 15),
+                  ),
+                  onTap: () {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'ProjectCard — archived project with long name and empty description',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ProjectCard(
+                  project: Project(
+                    id: 'p2',
+                    name: 'Legacy System Migration to Cloud Infrastructure Platform',
+                    description: '',
+                    status: ProjectStatus.archived,
+                    owner: UserRef(id: 'u2', name: 'Bob Smith'),
+                    memberCount: 0,
+                    taskCount: 0,
+                    createdAt: DateTime(2023, 6, 10),
+                  ),
+                  onTap: () {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'ProjectCard — zero members and zero tasks',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ProjectCard(
+                  project: Project(
+                    id: 'p3',
+                    name: 'Internal Tools',
+                    description: 'Small utility project for internal automation scripts.',
+                    status: ProjectStatus.active,
+                    owner: UserRef(id: 'u3', name: 'Carol White'),
+                    memberCount: 0,
+                    taskCount: 0,
+                    createdAt: DateTime(2024, 3, 1),
+                  ),
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'MemberTile — various roles',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Column(
+                  children: [
+                    MemberTile(
+                      member: ProjectMember(
+                        id: 'm1',
+                        name: 'Alice Johnson',
+                        role: Role.admin,
+                      ),
+                      trailing: const Icon(Icons.more_vert),
+                    ),
+                    const Divider(color: AppColors.divider, height: AppSpacing.md),
+                    MemberTile(
+                      member: ProjectMember(
+                        id: 'm2',
+                        name: 'Bob Smith',
+                        role: Role.manager,
+                      ),
+                      trailing: const Icon(Icons.more_vert),
+                    ),
+                    const Divider(color: AppColors.divider, height: AppSpacing.md),
+                    MemberTile(
+                      member: ProjectMember(
+                        id: 'm3',
+                        name: 'Carol White',
+                        role: Role.employee,
+                      ),
+                      trailing: const Icon(Icons.more_vert),
+                    ),
+                    const Divider(color: AppColors.divider, height: AppSpacing.md),
+                    MemberTile(
+                      member: ProjectMember(
+                        id: 'm4',
+                        name: 'David Brown',
+                        role: null,
+                      ),
+                      trailing: const Icon(Icons.more_vert),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'MemberAvatarStack — with overflow (+N)',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                MemberAvatarStack(
+                  members: [
+                    ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
+                    ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
+                    ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
+                    ProjectMember(id: 'm4', name: 'David Brown', role: Role.employee),
+                    ProjectMember(id: 'm5', name: 'Eve Davis', role: Role.employee),
+                    ProjectMember(id: 'm6', name: 'Frank Miller', role: Role.employee),
+                    ProjectMember(id: 'm7', name: 'Grace Wilson', role: Role.employee),
+                  ],
+                  max: 4,
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'MemberAvatarStack — exactly at max (4)',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                MemberAvatarStack(
+                  members: [
+                    ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
+                    ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
+                    ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
+                    ProjectMember(id: 'm4', name: 'David Brown', role: Role.employee),
+                  ],
+                  max: 4,
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'MemberAvatarStack — empty',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                MemberAvatarStack(
+                  members: [],
+                  max: 4,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'ProjectForm — empty (validation errors)',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ProjectForm(
+                  onSubmit: (name, desc) {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'ProjectForm — pre-filled with short name (validation error)',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ProjectForm(
+                  initialName: 'A',
+                  initialDescription: 'Short',
+                  submitLabel: 'Update Project',
+                  onSubmit: (name, desc) {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'ProjectForm — loading state',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ProjectForm(
+                  initialName: 'Website Redesign',
+                  initialDescription: 'Complete overhaul of the company website with modern design system.',
+                  submitLabel: 'Saving...',
+                  isLoading: true,
+                  onSubmit: (name, desc) {},
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'ProjectStatusFilter — All selected',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ProjectStatusFilter(
+                  selected: null,
+                  onChanged: (v) {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'ProjectStatusFilter — Active selected',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ProjectStatusFilter(
+                  selected: ProjectStatus.active,
+                  onChanged: (v) {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'ProjectStatusFilter — Archived selected',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ProjectStatusFilter(
+                  selected: ProjectStatus.archived,
+                  onChanged: (v) {},
+                ),
+              ],
             ),
           ),
         ],
