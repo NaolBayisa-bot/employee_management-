@@ -28,6 +28,10 @@ import '../../shared/widgets/status_chip.dart';
 import 'package:mobile_app/features/tasks/widgets/due_date_label.dart';
 import 'package:mobile_app/features/tasks/widgets/priority_badge.dart';
 import 'package:mobile_app/features/tasks/widgets/task_card.dart';
+import 'package:mobile_app/features/tasks/widgets/assignee_picker.dart';
+import 'package:mobile_app/features/tasks/widgets/date_picker_field.dart';
+import 'package:mobile_app/features/tasks/widgets/priority_selector.dart';
+import 'package:mobile_app/features/tasks/widgets/task_form.dart';
 import '../auth/widgets/auth_header.dart';
 import '../auth/widgets/status_message_view.dart';
 import '../projects/widgets/candidate_tile.dart';
@@ -1188,6 +1192,162 @@ GlassCard(
           dueDate: DateTime(2024, 11, 1),
         ),
         onTap: () {},
+      ),
+      const SizedBox(height: AppSpacing.lg),
+      // ===== NEW TASK FORM WIDGETS (Task 20) =====
+      SectionHeader(title: 'Task Form Widgets (Task 20)'),
+      GlassCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'AssigneePicker — empty',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            AssigneePicker(
+              members: [
+                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
+                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
+                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
+              ],
+              selectedId: null,
+              onChanged: (v) {},
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text(
+              'AssigneePicker — with selection',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            AssigneePicker(
+              members: [
+                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
+                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
+                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
+              ],
+              selectedId: 'm2',
+              onChanged: (v) {},
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text(
+              'DatePickerField — empty',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            DatePickerField(
+              value: null,
+              onChanged: (v) {},
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text(
+              'DatePickerField — with date',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            DatePickerField(
+              value: DateTime(2024, 10, 25),
+              onChanged: (v) {},
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text(
+              'PrioritySelector — Low selected',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            PrioritySelector(
+              value: TaskPriority.low,
+              onChanged: (v) {},
+            ),
+            const SizedBox(height: AppSpacing.md),
+            const Text(
+              'PrioritySelector — Medium selected',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            PrioritySelector(
+              value: TaskPriority.medium,
+              onChanged: (v) {},
+            ),
+            const SizedBox(height: AppSpacing.md),
+            const Text(
+              'PrioritySelector — High selected',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            PrioritySelector(
+              value: TaskPriority.high,
+              onChanged: (v) {},
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text(
+              'TaskForm — empty (validation errors)',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            TaskForm(
+              members: [
+                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
+                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
+                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
+              ],
+              onSubmit: (v) {},
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text(
+              'TaskForm — prefilled from Task',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            TaskForm(
+              initialTask: Task(
+                id: 't1',
+                title: 'Design new dashboard',
+                description: 'Create a new dashboard layout with dark theme',
+                status: TaskStatus.todo,
+                priority: TaskPriority.high,
+                projectId: 'p1',
+                assignee: UserRef(id: 'm2', name: 'Bob Smith'),
+                createdAt: DateTime(2024, 1, 15),
+                dueDate: DateTime(2024, 10, 30),
+              ),
+              members: [
+                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
+                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
+                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
+              ],
+              submitLabel: 'Update Task',
+              onSubmit: (v) {},
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text(
+              'TaskForm — loading state',
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            TaskForm(
+              initialTask: Task(
+                id: 't2',
+                title: 'Fix login bug',
+                description: 'Users cannot login with Google OAuth',
+                status: TaskStatus.inProgress,
+                priority: TaskPriority.medium,
+                projectId: 'p1',
+                assignee: UserRef(id: 'm1', name: 'Alice Johnson'),
+                createdAt: DateTime(2024, 1, 10),
+                dueDate: DateTime(2024, 10, 20),
+              ),
+              members: [
+                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
+                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
+                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
+              ],
+              submitLabel: 'Saving...',
+              isLoading: true,
+              onSubmit: (v) {},
+            ),
+          ],
+        ),
       ),
     ],
   ),
