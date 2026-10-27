@@ -17,6 +17,7 @@ import 'package:mobile_app/features/auth/screens/waiting_approval_screen.dart';
 import 'package:mobile_app/features/design_preview/design_preview_screen.dart';
 import 'package:mobile_app/features/home/screens/main_shell.dart';
 import 'package:mobile_app/features/profile/screens/profile_screen.dart';
+import 'package:mobile_app/features/projects/screens/add_members_screen.dart';
 import 'package:mobile_app/features/projects/screens/create_project_screen.dart';
 import 'package:mobile_app/features/projects/screens/edit_project_screen.dart';
 import 'package:mobile_app/features/projects/screens/project_detail_screen.dart';
@@ -81,6 +82,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/projects/:id',
         name: 'project-detail',
         builder: (context, state) => ProjectDetailScreen(projectId: state.pathParameters['id']!),
+      ),
+      // Add members (Task 16) - must come before /projects/:id/edit? No:
+      // /projects/:id/members/add is a sub-route of /projects/:id, but
+      // go_router matches routes in order; since /projects/:id matches first,
+      // we register /projects/:id/members/add before /projects/:id to avoid
+      // "members" being captured as the :id parameter.
+      GoRoute(
+        path: '/projects/:id/members/add',
+        name: 'project-add-members',
+        builder: (context, state) => AddMembersScreen(
+          projectId: state.pathParameters['id']!,
+        ),
       ),
       // Project edit (Task 15)
       GoRoute(

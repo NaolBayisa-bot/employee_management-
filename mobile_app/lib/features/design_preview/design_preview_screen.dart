@@ -27,6 +27,7 @@ import '../../shared/widgets/section_header.dart';
 import '../../shared/widgets/status_chip.dart';
 import '../auth/widgets/auth_header.dart';
 import '../auth/widgets/status_message_view.dart';
+import '../projects/widgets/candidate_tile.dart';
 import '../projects/widgets/member_avatar_stack.dart';
 import '../projects/widgets/member_tile.dart';
 import '../projects/widgets/project_card.dart';
@@ -858,6 +859,59 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                       trailing: const Icon(Icons.more_vert),
                     ),
                   ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'CandidateTile — not a member (Add button)',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                CandidateTile(
+                  candidate: Candidate(
+                    id: 'u1',
+                    name: 'Alice Johnson',
+                    role: Role.manager,
+                  ),
+                  isMember: false,
+                  onAdd: () {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'CandidateTile — already a member (Member label)',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                CandidateTile(
+                  candidate: Candidate(
+                    id: 'u2',
+                    name: 'Bob Smith',
+                    role: Role.employee,
+                  ),
+                  isMember: true,
+                  onAdd: () {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'CandidateTile — loading state',
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                CandidateTile(
+                  candidate: Candidate(
+                    id: 'u3',
+                    name: 'Carol White',
+                    role: Role.employee,
+                  ),
+                  isMember: false,
+                  onAdd: () {},
+                  isLoading: true,
                 ),
               ],
             ),

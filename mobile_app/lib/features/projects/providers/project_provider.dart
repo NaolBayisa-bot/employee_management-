@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../shared/models/project.dart';
 import '../../../shared/models/task.dart';
+import '../../../shared/models/user.dart';
 import '../data/project_repository.dart';
 
 /// Provider for projects filtered by status.
@@ -54,4 +55,18 @@ final projectTasksProvider = FutureProvider.family<List<Task>, String>((
 ) async {
   final repository = ref.read(projectRepositoryProvider);
   return repository.getProjectTasks(projectId);
+});
+
+/// Provider for candidate users (searchable).
+/// Uses FutureProvider.autoDispose.family so that results for a
+/// particular search term are released when the screen is popped.
+/// The [search] parameter is an empty string for "no filter" and a
+/// non-empty string for a name search (debounced on the client side).
+final candidatesProvider =
+    FutureProvider.autoDispose.family<List<Candidate>, String>((
+  ref,
+  search,
+) async {
+  final repository = ref.read(projectRepositoryProvider);
+  return repository.getCandidates(search: search);
 });

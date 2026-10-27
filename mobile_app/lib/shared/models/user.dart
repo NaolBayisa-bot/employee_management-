@@ -251,3 +251,51 @@ class ProjectMember {
   String toString() =>
       'ProjectMember(id: $id, name: $name, role: $role)';
 }
+
+/// A candidate for project membership, matching the objects in the
+/// `users` array returned by GET /projects/candidates.
+///
+/// Candidates are ACTIVE users whose role is MANAGER or EMPLOYEE
+/// (the server already filters out PENDING and DEACTIVATED users).
+/// Only `id`, `name`, and `role` are returned — no email or status.
+@immutable
+class Candidate {
+  const Candidate({
+    required this.id,
+    required this.name,
+    this.role,
+  });
+
+  final String id;
+  final String name;
+  final Role? role;
+
+  factory Candidate.fromJson(Map<String, dynamic> json) {
+    final id = json['id'];
+    if (id is! String) {
+      throw FormatException(
+        "Candidate 'id' is required and must be a String (was: $id)",
+      );
+    }
+    final name = json['name'];
+    if (name is! String) {
+      throw FormatException(
+        "Candidate 'name' is required and must be a String (was: $name)",
+      );
+    }
+    return Candidate(
+      id: id,
+      name: name,
+      role: Role.fromServer(_asString(json['role'])),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'role': role?.toServerValue(),
+      };
+
+  @override
+  String toString() => 'Candidate(id: $id, name: $name, role: $role)';
+}

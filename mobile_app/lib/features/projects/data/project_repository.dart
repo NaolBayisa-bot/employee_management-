@@ -14,6 +14,7 @@ import '../../../core/network/api_client.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../shared/models/project.dart';
 import '../../../shared/models/task.dart';
+import '../../../shared/models/user.dart';
 
 /// Paginated project list response.
 @immutable
@@ -207,6 +208,72 @@ class ProjectRepository {
     return tasksRaw
         .whereType<Map>()
         .map((m) => Task.fromJson(Map<String, dynamic>.from(m)))
+        .toList(growable: false);
+  }
+
+  /// Fetches eligible project members (candidates).
+  ///
+  /// GET /projects/candidates with optional [search] query parameter.
+  /// The server returns only ACTIVE users whose role is MANAGER or EMPLOYEE,
+  /// so PENDING and DEACTIVATED users never appear in the results.
+  /// When [search] is provided (non-empty) it is sent as a `search` query
+  /// parameter for case-insensitive name filtering on the backend.
+  Future<List<Candidate>> getCandidates({String? search}) async {
+    final queryParameters = <String, dynamic>{};
+    if (search != null && search.isNotEmpty) {
+      queryParameters['search'] = search;
+    }
+
+    final response = await _apiClient.get(
+      '/projects/candidates',
+      queryParameters: queryParameters,
+    );
+
+    final data = response.data;
+    if (data is! Map<String, dynamic>) {
+      throw ApiException(
+        message: 'Unexpected response from /projects/candidates',
+      );
+    }
+
+    final usersRaw = data['users'];
+    if (usersRaw is! List) {
+      return const <Candidate>[];
+    }
+
+    return usersRaw
+        .whereType<Map>()
+        .map((m) => Candidate.fromJson(Map<String, dynamic>.from(m)))
+        .toList(growable: false);
+  }
+
+  /// Adds a member to a project.
+  ///
+  /// POST /projects/:id/members expects `{ userId }` in the body.
+  /// On success (201) returns the updated member list.
+  /// On conflict (409) throws [ApiException] with the server message
+  /// "User is already a member of this project".
+  Future<List<ProjectMember>> addMember(String projectId, String userId) async {
+    final response = await _apiClient.post(
+      '/projects/$projectId/members',
+      data: {'userId': userId},
+    );
+
+    final data = response.data;
+    if (data is! Map<String, dynamic>) {
+      throw ApiException(
+        message: 'Unexpected response from POST /projects/$projectId/members',
+      );
+    }
+
+    final membersRaw = data['members'];
+    if (membersRaw is! List) {
+      return const <ProjectMember>[];
+    }
+
+    return membersRaw
+        .whereType<Map>()
+        .map((m) => ProjectMember.fromJson(Map<String, dynamic>.from(m)))
         .toList(growable: false);
   }
 }
