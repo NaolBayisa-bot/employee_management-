@@ -25,6 +25,7 @@ import '../../shared/widgets/loading_view.dart';
 import '../../shared/widgets/mono_text.dart';
 import '../../shared/widgets/section_header.dart';
 import '../../shared/widgets/status_chip.dart';
+
 import 'package:mobile_app/features/tasks/widgets/due_date_label.dart';
 import 'package:mobile_app/features/tasks/widgets/priority_badge.dart';
 import 'package:mobile_app/features/tasks/widgets/task_card.dart';
@@ -32,6 +33,7 @@ import 'package:mobile_app/features/tasks/widgets/assignee_picker.dart';
 import 'package:mobile_app/features/tasks/widgets/date_picker_field.dart';
 import 'package:mobile_app/features/tasks/widgets/priority_selector.dart';
 import 'package:mobile_app/features/tasks/widgets/task_form.dart';
+
 import '../auth/widgets/auth_header.dart';
 import '../auth/widgets/status_message_view.dart';
 import '../projects/widgets/candidate_tile.dart';
@@ -68,9 +70,7 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
 
     return Scaffold(
       extendBody: true,
-      appBar: const GlassAppBar(
-        titleText: 'Design System Gallery',
-      ),
+      appBar: const GlassAppBar(titleText: 'Design System Gallery'),
       bottomNavigationBar: GlassNavigationBar(
         selectedIndex: _navIndex,
         onSelected: (index) => setState(() => _navIndex = index),
@@ -135,7 +135,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.sm),
                 const Text(
                   'MonoText (JetBrains Mono numbers & telemetry):',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 const Row(
@@ -189,10 +192,7 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                   onPressed: null,
                 ),
                 const SizedBox(height: AppSpacing.md),
-                const AppButton(
-                  label: 'Disabled Button',
-                  onPressed: null,
-                ),
+                const AppButton(label: 'Disabled Button', onPressed: null),
               ],
             ),
           ),
@@ -247,7 +247,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               children: [
                 const Text(
                   'Task Status Chips:',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Wrap(
@@ -262,7 +265,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.md),
                 const Text(
                   'Priority Chips:',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Wrap(
@@ -277,7 +283,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.md),
                 const Text(
                   'Role Chips:',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Wrap(
@@ -293,7 +302,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.md),
                 const Text(
                   'User Status Chips:',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Wrap(
@@ -308,7 +320,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.md),
                 const Text(
                   'Project Status Chips:',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Wrap(
@@ -361,7 +376,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.sm),
                 const Text(
                   'Edge Case Name Handling:',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 const Row(
@@ -378,7 +396,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                       children: [
                         Avatar(name: 'Alice', size: AvatarSize.medium),
                         SizedBox(height: AppSpacing.xs),
-                        Text('Single ("Alice")', style: TextStyle(fontSize: 11)),
+                        Text(
+                          'Single ("Alice")',
+                          style: TextStyle(fontSize: 11),
+                        ),
                       ],
                     ),
                     Column(
@@ -503,7 +524,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               children: [
                 const Text(
                   'Shimmer-style Skeleton Placeholders (Pure Flutter):',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 const SkeletonPlaceholder(width: 140, height: 16),
@@ -516,7 +540,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.sm),
                 const Text(
                   'Mini ErrorView:',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 ErrorView(
@@ -531,7 +558,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.sm),
                 const Text(
                   'Mini EmptyView:',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 EmptyView(
@@ -565,7 +595,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                       confirmLabel: 'Approve',
                     );
                     if (context.mounted && confirmed == true) {
-                      AppSnackBar.showSuccess(context, 'User approved successfully!');
+                      AppSnackBar.showSuccess(
+                        context,
+                        'User approved successfully!',
+                      );
                     }
                   },
                 ),
@@ -582,7 +615,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                       destructive: true,
                     );
                     if (context.mounted && confirmed == true) {
-                      AppSnackBar.showError(context, 'Account was deactivated.');
+                      AppSnackBar.showError(
+                        context,
+                        'Account was deactivated.',
+                      );
                     }
                   },
                 ),
@@ -602,17 +638,22 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                             children: [
                               Text(
                                 'Filter Projects',
-                                style: Theme.of(sheetContext).textTheme.titleLarge,
+                                style: Theme.of(sheetContext)
+                                    .textTheme
+                                    .titleLarge,
                               ),
                               const SizedBox(height: AppSpacing.md),
                               const Text(
                                 'Select visibility and role filters to adjust project results.',
-                                style: TextStyle(color: AppColors.textSecondary),
+                                style: TextStyle(
+                                  color: AppColors.textSecondary,
+                                ),
                               ),
                               const SizedBox(height: AppSpacing.xl),
                               AppButton(
                                 label: 'Apply Filters',
-                                onPressed: () => Navigator.of(sheetContext).pop(),
+                                onPressed: () =>
+                                    Navigator.of(sheetContext).pop(),
                               ),
                             ],
                           ),
@@ -629,7 +670,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                         label: 'Show Success SnackBar',
                         variant: AppButtonVariant.text,
                         onPressed: () {
-                          AppSnackBar.showSuccess(context, 'Changes saved successfully');
+                          AppSnackBar.showSuccess(
+                            context,
+                            'Changes saved successfully',
+                          );
                         },
                       ),
                     ),
@@ -638,7 +682,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                         label: 'Show Error SnackBar',
                         variant: AppButtonVariant.text,
                         onPressed: () {
-                          AppSnackBar.showError(context, 'Failed to authenticate');
+                          AppSnackBar.showError(
+                            context,
+                            'Failed to authenticate',
+                          );
                         },
                       ),
                     ),
@@ -685,7 +732,8 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                   StatusMessageView(
                     icon: Icons.hourglass_top_rounded,
                     title: 'Awaiting Approval',
-                    message: 'Your account is pending admin approval. '
+                    message:
+                        'Your account is pending admin approval. '
                         'You will be able to access the app once an admin activates your account.',
                     iconColor: AppColors.warning,
                     iconBackgroundColor: AppColors.warningFill,
@@ -714,7 +762,8 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                   StatusMessageView(
                     icon: Icons.block_rounded,
                     title: 'Account Deactivated',
-                    message: 'Your account has been deactivated. '
+                    message:
+                        'Your account has been deactivated. '
                         'Please contact support if you believe this is a mistake.',
                     iconColor: AppColors.error,
                     iconBackgroundColor: AppColors.errorFill,
@@ -738,7 +787,8 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                   StatusMessageView(
                     icon: Icons.check_circle_outline,
                     title: 'Success State',
-                    message: 'This shows a custom success icon with green colors.',
+                    message:
+                        'This shows a custom success icon with green colors.',
                     iconColor: AppColors.success,
                     iconBackgroundColor: AppColors.successFill,
                     actions: [
@@ -761,7 +811,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               children: [
                 const Text(
                   'ProjectCard — normal active project',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 ProjectCard(
@@ -780,7 +833,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'ProjectCard — archived project with long name and empty description',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 ProjectCard(
@@ -799,7 +855,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'ProjectCard — zero members and zero tasks',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 ProjectCard(
@@ -825,7 +884,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               children: [
                 const Text(
                   'MemberTile — various roles',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 Column(
@@ -838,7 +900,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                       ),
                       trailing: const Icon(Icons.more_vert),
                     ),
-                    const Divider(color: AppColors.divider, height: AppSpacing.md),
+                    const Divider(
+                      color: AppColors.divider,
+                      height: AppSpacing.md,
+                    ),
                     MemberTile(
                       member: ProjectMember(
                         id: 'm2',
@@ -847,7 +912,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                       ),
                       trailing: const Icon(Icons.more_vert),
                     ),
-                    const Divider(color: AppColors.divider, height: AppSpacing.md),
+                    const Divider(
+                      color: AppColors.divider,
+                      height: AppSpacing.md,
+                    ),
                     MemberTile(
                       member: ProjectMember(
                         id: 'm3',
@@ -856,7 +924,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                       ),
                       trailing: const Icon(Icons.more_vert),
                     ),
-                    const Divider(color: AppColors.divider, height: AppSpacing.md),
+                    const Divider(
+                      color: AppColors.divider,
+                      height: AppSpacing.md,
+                    ),
                     MemberTile(
                       member: ProjectMember(
                         id: 'm4',
@@ -877,7 +948,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               children: [
                 const Text(
                   'CandidateTile — not a member (Add button)',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 CandidateTile(
@@ -892,7 +966,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'CandidateTile — already a member (Member label)',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 CandidateTile(
@@ -907,7 +984,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'CandidateTile — loading state',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 CandidateTile(
@@ -930,46 +1010,96 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               children: [
                 const Text(
                   'MemberAvatarStack — with overflow (+N)',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 MemberAvatarStack(
                   members: [
-                    ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
-                    ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
-                    ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
-                    ProjectMember(id: 'm4', name: 'David Brown', role: Role.employee),
-                    ProjectMember(id: 'm5', name: 'Eve Davis', role: Role.employee),
-                    ProjectMember(id: 'm6', name: 'Frank Miller', role: Role.employee),
-                    ProjectMember(id: 'm7', name: 'Grace Wilson', role: Role.employee),
+                    ProjectMember(
+                      id: 'm1',
+                      name: 'Alice Johnson',
+                      role: Role.admin,
+                    ),
+                    ProjectMember(
+                      id: 'm2',
+                      name: 'Bob Smith',
+                      role: Role.manager,
+                    ),
+                    ProjectMember(
+                      id: 'm3',
+                      name: 'Carol White',
+                      role: Role.employee,
+                    ),
+                    ProjectMember(
+                      id: 'm4',
+                      name: 'David Brown',
+                      role: Role.employee,
+                    ),
+                    ProjectMember(
+                      id: 'm5',
+                      name: 'Eve Davis',
+                      role: Role.employee,
+                    ),
+                    ProjectMember(
+                      id: 'm6',
+                      name: 'Frank Miller',
+                      role: Role.employee,
+                    ),
+                    ProjectMember(
+                      id: 'm7',
+                      name: 'Grace Wilson',
+                      role: Role.employee,
+                    ),
                   ],
                   max: 4,
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'MemberAvatarStack — exactly at max (4)',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 MemberAvatarStack(
                   members: [
-                    ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
-                    ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
-                    ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
-                    ProjectMember(id: 'm4', name: 'David Brown', role: Role.employee),
+                    ProjectMember(
+                      id: 'm1',
+                      name: 'Alice Johnson',
+                      role: Role.admin,
+                    ),
+                    ProjectMember(
+                      id: 'm2',
+                      name: 'Bob Smith',
+                      role: Role.manager,
+                    ),
+                    ProjectMember(
+                      id: 'm3',
+                      name: 'Carol White',
+                      role: Role.employee,
+                    ),
+                    ProjectMember(
+                      id: 'm4',
+                      name: 'David Brown',
+                      role: Role.employee,
+                    ),
                   ],
                   max: 4,
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'MemberAvatarStack — empty',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
-                MemberAvatarStack(
-                  members: [],
-                  max: 4,
-                ),
+                MemberAvatarStack(members: [], max: 4),
               ],
             ),
           ),
@@ -980,16 +1110,20 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               children: [
                 const Text(
                   'ProjectForm — empty (validation errors)',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
-                ProjectForm(
-                  onSubmit: (name, desc) {},
-                ),
+                ProjectForm(onSubmit: (name, desc) {}),
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'ProjectForm — pre-filled with short name (validation error)',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 ProjectForm(
@@ -1001,7 +1135,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'ProjectForm — loading state',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 ProjectForm(
@@ -1021,17 +1158,20 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               children: [
                 const Text(
                   'ProjectStatusFilter — All selected',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
-                ProjectStatusFilter(
-                  selected: null,
-                  onChanged: (v) {},
-                ),
+                ProjectStatusFilter(selected: null, onChanged: (v) {}),
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'ProjectStatusFilter — Active selected',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 ProjectStatusFilter(
@@ -1041,7 +1181,10 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                 const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'ProjectStatusFilter — Archived selected',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 ProjectStatusFilter(
@@ -1051,307 +1194,401 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               ],
             ),
           ),
-//
-// 11. Task Feature Widgets
-const SectionHeader(title: '11. Task Feature Widgets'),
-GlassCard(
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Text(
-        'TaskListTile — with assignee',
-        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-      ),
-      const SizedBox(height: AppSpacing.md),
-      TaskListTile(
-        task: Task(
-          id: 't1',
-          title: 'Design new dashboard layout',
-          status: TaskStatus.todo,
-          priority: TaskPriority.high,
-          projectId: 'p1',
-          assignee: UserRef(id: 'u1', name: 'Alice Johnson'),
-          createdAt: DateTime(2024, 1, 15),
-        ),
-        onTap: () {},
-      ),
-      const Divider(color: AppColors.divider, height: AppSpacing.md),
-      const Text(
-        'TaskListTile — unassigned with long title',
-        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-      ),
-      const SizedBox(height: AppSpacing.md),
-      TaskListTile(
-        task: Task(
-          id: 't2',
-          title: 'This is a very long task title that should be truncated properly in the UI',
-          status: TaskStatus.inProgress,
-          priority: TaskPriority.medium,
-          projectId: 'p1',
-          assignee: null,
-          createdAt: DateTime(2024, 1, 16),
-        ),
-        onTap: () {},
-      ),
-      const Divider(color: AppColors.divider, height: AppSpacing.md),
-      const Text(
-        'TaskListTile — completed task',
-        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-      ),
-      const SizedBox(height: AppSpacing.md),
-      TaskListTile(
-        task: Task(
-          id: 't3',
-          title: 'Fix login bug',
-          status: TaskStatus.done,
-          priority: TaskPriority.low,
-          projectId: 'p1',
-          assignee: UserRef(id: 'u2', name: 'Bob Smith'),
-          createdAt: DateTime(2024, 1, 10),
-        ),
-        onTap: () {},
-      ),
-      const Divider(color: AppColors.divider, height: AppSpacing.md),
-      const Text(
-        'DueDateLabel — with date',
-        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-      ),
-      const SizedBox(height: AppSpacing.md),
-      DueDateLabel(
-        date: DateTime(2024, 10, 25),
-        overdue: false,
-      ),
-      const SizedBox(height: AppSpacing.md),
-      DueDateLabel(
-        date: DateTime.now().add(const Duration(days: 1)),
-        overdue: false,
-      ),
-      const SizedBox(height: AppSpacing.md),
-      DueDateLabel(
-        date: DateTime.now().add(const Duration(days: -1)),
-        overdue: true,
-      ),
-      const SizedBox(height: AppSpacing.md),
-      const Text(
-        'PriorityBadge — low / medium / high',
-        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-      ),
-      const SizedBox(height: AppSpacing.md),
-      Row(
-        children: [
-          PriorityBadge(priority: TaskPriority.low),
-          const SizedBox(width: AppSpacing.sm),
-          PriorityBadge(priority: TaskPriority.medium),
-          const SizedBox(width: AppSpacing.sm),
-          PriorityBadge(priority: TaskPriority.high),
-        ],
-      ),
-      const SizedBox(height: AppSpacing.md),
-      const Text(
-        'TaskCard — with all fields',
-        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-      ),
-      const SizedBox(height: AppSpacing.md),
-      TaskCard(
-        task: Task(
-          id: 't4',
-          title: 'Design new dashboard layout',
-          status: TaskStatus.todo,
-          priority: TaskPriority.high,
-          projectId: 'p1',
-          assignee: UserRef(id: 'u1', name: 'Alice Johnson'),
-          createdAt: DateTime(2024, 1, 15),
-          dueDate: DateTime(2024, 10, 20),
-        ),
-        onTap: () {},
-      ),
-      const SizedBox(height: AppSpacing.md),
-      TaskCard(
-        task: Task(
-          id: 't5',
-          title: 'Fix login bug',
-          status: TaskStatus.done,
-          priority: TaskPriority.low,
-          projectId: 'p1',
-          assignee: UserRef(id: 'u2', name: 'Bob Smith'),
-          createdAt: DateTime(2024, 1, 10),
-          dueDate: null,
-        ),
-        onTap: () {},
-      ),
-      const SizedBox(height: AppSpacing.md),
-      TaskCard(
-        task: Task(
-          id: 't6',
-          title: 'This is a very long task title that should be truncated properly in the UI and wrap to multiple lines if needed',
-          status: TaskStatus.inProgress,
-          priority: TaskPriority.medium,
-          projectId: 'p1',
-          assignee: null,
-          createdAt: DateTime(2024, 1, 16),
-          dueDate: DateTime(2024, 11, 1),
-        ),
-        onTap: () {},
-      ),
-      const SizedBox(height: AppSpacing.lg),
-      // ===== NEW TASK FORM WIDGETS (Task 20) =====
-      SectionHeader(title: 'Task Form Widgets (Task 20)'),
-      GlassCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'AssigneePicker — empty',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            AssigneePicker(
-              members: [
-                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
-                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
-                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
+          //
+          // 11. Task Feature Widgets
+          SectionHeader(title: '11. Task Feature Widgets'),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'TaskListTile — with assignee',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskListTile(
+                  task: Task(
+                    id: 't1',
+                    title: 'Design new dashboard layout',
+                    status: TaskStatus.todo,
+                    priority: TaskPriority.high,
+                    projectId: 'p1',
+                    assignee: UserRef(id: 'u1', name: 'Alice Johnson'),
+                    createdAt: DateTime(2024, 1, 15),
+                  ),
+                  onTap: () {},
+                ),
+                const Divider(color: AppColors.divider, height: AppSpacing.md),
+                const Text(
+                  'TaskListTile — unassigned with long title',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskListTile(
+                  task: Task(
+                    id: 't2',
+                    title: 'This is a very long task title that should be truncated properly in the UI',
+                    status: TaskStatus.inProgress,
+                    priority: TaskPriority.medium,
+                    projectId: 'p1',
+                    assignee: null,
+                    createdAt: DateTime(2024, 1, 16),
+                  ),
+                  onTap: () {},
+                ),
+                const Divider(color: AppColors.divider, height: AppSpacing.md),
+                const Text(
+                  'TaskListTile — completed task',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskListTile(
+                  task: Task(
+                    id: 't3',
+                    title: 'Fix login bug',
+                    status: TaskStatus.done,
+                    priority: TaskPriority.low,
+                    projectId: 'p1',
+                    assignee: UserRef(id: 'u2', name: 'Bob Smith'),
+                    createdAt: DateTime(2024, 1, 10),
+                  ),
+                  onTap: () {},
+                ),
+                const Divider(color: AppColors.divider, height: AppSpacing.md),
+                const Text(
+                  'DueDateLabel — with date',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                DueDateLabel(date: DateTime(2024, 10, 25), overdue: false),
+                const SizedBox(height: AppSpacing.md),
+                DueDateLabel(
+                  date: DateTime.now().add(const Duration(days: 1)),
+                  overdue: false,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                DueDateLabel(
+                  date: DateTime.now().add(const Duration(days: -1)),
+                  overdue: true,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                const Text(
+                  'PriorityBadge — low / medium / high',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Row(
+                  children: [
+                    PriorityBadge(priority: TaskPriority.low),
+                    const SizedBox(width: AppSpacing.sm),
+                    PriorityBadge(priority: TaskPriority.medium),
+                    const SizedBox(width: AppSpacing.sm),
+                    PriorityBadge(priority: TaskPriority.high),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.md),
+                const Text(
+                  'TaskCard — with all fields',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskCard(
+                  task: Task(
+                    id: 't4',
+                    title: 'Design new dashboard layout',
+                    status: TaskStatus.todo,
+                    priority: TaskPriority.high,
+                    projectId: 'p1',
+                    assignee: UserRef(id: 'u1', name: 'Alice Johnson'),
+                    createdAt: DateTime(2024, 1, 15),
+                    dueDate: DateTime(2024, 10, 20),
+                  ),
+                  onTap: () {},
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskCard(
+                  task: Task(
+                    id: 't5',
+                    title: 'Fix login bug',
+                    status: TaskStatus.done,
+                    priority: TaskPriority.low,
+                    projectId: 'p1',
+                    assignee: UserRef(id: 'u2', name: 'Bob Smith'),
+                    createdAt: DateTime(2024, 1, 10),
+                    dueDate: null,
+                  ),
+                  onTap: () {},
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskCard(
+                  task: Task(
+                    id: 't6',
+                    title: 'This is a very long task title that should be truncated properly in the UI and wrap to multiple lines if needed',
+                    status: TaskStatus.inProgress,
+                    priority: TaskPriority.medium,
+                    projectId: 'p1',
+                    assignee: null,
+                    createdAt: DateTime(2024, 1, 16),
+                    dueDate: DateTime(2024, 11, 1),
+                  ),
+                  onTap: () {},
+                ),
               ],
-              selectedId: null,
-              onChanged: (v) {},
             ),
-            const SizedBox(height: AppSpacing.lg),
-            const Text(
-              'AssigneePicker — with selection',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            AssigneePicker(
-              members: [
-                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
-                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
-                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          // ===== NEW TASK FORM WIDGETS (Task 20) =====
+          SectionHeader(title: 'Task Form Widgets (Task 20)'),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'AssigneePicker — empty',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                AssigneePicker(
+                  members: [
+                    ProjectMember(
+                      id: 'm1',
+                      name: 'Alice Johnson',
+                      role: Role.admin,
+                    ),
+                    ProjectMember(
+                      id: 'm2',
+                      name: 'Bob Smith',
+                      role: Role.manager,
+                    ),
+                    ProjectMember(
+                      id: 'm3',
+                      name: 'Carol White',
+                      role: Role.employee,
+                    ),
+                  ],
+                  selectedId: null,
+                  onChanged: (v) {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'AssigneePicker — with selection',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                AssigneePicker(
+                  members: [
+                    ProjectMember(
+                      id: 'm1',
+                      name: 'Alice Johnson',
+                      role: Role.admin,
+                    ),
+                    ProjectMember(
+                      id: 'm2',
+                      name: 'Bob Smith',
+                      role: Role.manager,
+                    ),
+                    ProjectMember(
+                      id: 'm3',
+                      name: 'Carol White',
+                      role: Role.employee,
+                    ),
+                  ],
+                  selectedId: 'm2',
+                  onChanged: (v) {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'DatePickerField — empty',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                DatePickerField(value: null, onChanged: (v) {}),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'DatePickerField — with date',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                DatePickerField(
+                  value: DateTime(2024, 10, 25),
+                  onChanged: (v) {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'PrioritySelector — Low selected',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                PrioritySelector(value: TaskPriority.low, onChanged: (v) {}),
+                const SizedBox(height: AppSpacing.md),
+                const Text(
+                  'PrioritySelector — Medium selected',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                PrioritySelector(value: TaskPriority.medium, onChanged: (v) {}),
+                const SizedBox(height: AppSpacing.md),
+                const Text(
+                  'PrioritySelector — High selected',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                PrioritySelector(value: TaskPriority.high, onChanged: (v) {}),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'TaskForm — empty (validation errors)',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskForm(
+                  members: [
+                    ProjectMember(
+                      id: 'm1',
+                      name: 'Alice Johnson',
+                      role: Role.admin,
+                    ),
+                    ProjectMember(
+                      id: 'm2',
+                      name: 'Bob Smith',
+                      role: Role.manager,
+                    ),
+                    ProjectMember(
+                      id: 'm3',
+                      name: 'Carol White',
+                      role: Role.employee,
+                    ),
+                  ],
+                  onSubmit: (v) {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'TaskForm — prefilled from Task',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskForm(
+                  initialTask: Task(
+                    id: 't1',
+                    title: 'Design new dashboard',
+                    description:
+                        'Create a new dashboard layout with dark theme',
+                    status: TaskStatus.todo,
+                    priority: TaskPriority.high,
+                    projectId: 'p1',
+                    assignee: UserRef(id: 'm2', name: 'Bob Smith'),
+                    createdAt: DateTime(2024, 1, 15),
+                    dueDate: DateTime(2024, 10, 30),
+                  ),
+                  members: [
+                    ProjectMember(
+                      id: 'm1',
+                      name: 'Alice Johnson',
+                      role: Role.admin,
+                    ),
+                    ProjectMember(
+                      id: 'm2',
+                      name: 'Bob Smith',
+                      role: Role.manager,
+                    ),
+                    ProjectMember(
+                      id: 'm3',
+                      name: 'Carol White',
+                      role: Role.employee,
+                    ),
+                  ],
+                  submitLabel: 'Update Task',
+                  onSubmit: (v) {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'TaskForm — loading state',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TaskForm(
+                  initialTask: Task(
+                    id: 't2',
+                    title: 'Fix login bug',
+                    description: 'Users cannot login with Google OAuth',
+                    status: TaskStatus.inProgress,
+                    priority: TaskPriority.medium,
+                    projectId: 'p1',
+                    assignee: UserRef(id: 'm1', name: 'Alice Johnson'),
+                    createdAt: DateTime(2024, 1, 10),
+                    dueDate: DateTime(2024, 10, 20),
+                  ),
+                  members: [
+                    ProjectMember(
+                      id: 'm1',
+                      name: 'Alice Johnson',
+                      role: Role.admin,
+                    ),
+                    ProjectMember(
+                      id: 'm2',
+                      name: 'Bob Smith',
+                      role: Role.manager,
+                    ),
+                    ProjectMember(
+                      id: 'm3',
+                      name: 'Carol White',
+                      role: Role.employee,
+                    ),
+                  ],
+                  submitLabel: 'Saving...',
+                  isLoading: true,
+                  onSubmit: (v) {},
+                ),
               ],
-              selectedId: 'm2',
-              onChanged: (v) {},
             ),
-            const SizedBox(height: AppSpacing.lg),
-            const Text(
-              'DatePickerField — empty',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            DatePickerField(
-              value: null,
-              onChanged: (v) {},
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            const Text(
-              'DatePickerField — with date',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            DatePickerField(
-              value: DateTime(2024, 10, 25),
-              onChanged: (v) {},
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            const Text(
-              'PrioritySelector — Low selected',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            PrioritySelector(
-              value: TaskPriority.low,
-              onChanged: (v) {},
-            ),
-            const SizedBox(height: AppSpacing.md),
-            const Text(
-              'PrioritySelector — Medium selected',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            PrioritySelector(
-              value: TaskPriority.medium,
-              onChanged: (v) {},
-            ),
-            const SizedBox(height: AppSpacing.md),
-            const Text(
-              'PrioritySelector — High selected',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            PrioritySelector(
-              value: TaskPriority.high,
-              onChanged: (v) {},
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            const Text(
-              'TaskForm — empty (validation errors)',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            TaskForm(
-              members: [
-                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
-                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
-                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
-              ],
-              onSubmit: (v) {},
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            const Text(
-              'TaskForm — prefilled from Task',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            TaskForm(
-              initialTask: Task(
-                id: 't1',
-                title: 'Design new dashboard',
-                description: 'Create a new dashboard layout with dark theme',
-                status: TaskStatus.todo,
-                priority: TaskPriority.high,
-                projectId: 'p1',
-                assignee: UserRef(id: 'm2', name: 'Bob Smith'),
-                createdAt: DateTime(2024, 1, 15),
-                dueDate: DateTime(2024, 10, 30),
-              ),
-              members: [
-                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
-                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
-                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
-              ],
-              submitLabel: 'Update Task',
-              onSubmit: (v) {},
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            const Text(
-              'TaskForm — loading state',
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            TaskForm(
-              initialTask: Task(
-                id: 't2',
-                title: 'Fix login bug',
-                description: 'Users cannot login with Google OAuth',
-                status: TaskStatus.inProgress,
-                priority: TaskPriority.medium,
-                projectId: 'p1',
-                assignee: UserRef(id: 'm1', name: 'Alice Johnson'),
-                createdAt: DateTime(2024, 1, 10),
-                dueDate: DateTime(2024, 10, 20),
-              ),
-              members: [
-                ProjectMember(id: 'm1', name: 'Alice Johnson', role: Role.admin),
-                ProjectMember(id: 'm2', name: 'Bob Smith', role: Role.manager),
-                ProjectMember(id: 'm3', name: 'Carol White', role: Role.employee),
-              ],
-              submitLabel: 'Saving...',
-              isLoading: true,
-              onSubmit: (v) {},
-            ),
-          ],
-        ),
-      ),
-    ],
-  ),
-),
+          ),
         ],
       ),
     );

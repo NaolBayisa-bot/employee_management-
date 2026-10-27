@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:mobile_app/core/theme/app_tokens.dart';
+// ignore: unused_import
+import 'package:mobile_app/shared/widgets/app_text_field.dart';
 
 class DatePickerField extends StatefulWidget {
   const DatePickerField({
@@ -32,8 +34,10 @@ class _DatePickerFieldState extends State<DatePickerField> {
 
   Future<void> _pickDate() async {
     final initialDate = widget.value ?? DateTime.now();
-    final firstDate = widget.firstDate ?? DateTime.now().subtract(const Duration(days: 365));
-    final lastDate = widget.lastDate ?? DateTime.now().add(const Duration(days: 365 * 5));
+    final firstDate =
+        widget.firstDate ?? DateTime.now().subtract(const Duration(days: 365));
+    final lastDate =
+        widget.lastDate ?? DateTime.now().add(const Duration(days: 365 * 5));
 
     final picked = await showDatePicker(
       context: context,
@@ -48,9 +52,7 @@ class _DatePickerFieldState extends State<DatePickerField> {
             surface: AppColors.surfaceContainer,
             onSurface: AppColors.textPrimary,
           ),
-          dialogTheme: DialogThemeData(
-            backgroundColor: AppColors.surfaceContainer,
-          ),
+          dialogBackgroundColor: AppColors.surfaceContainer,
         ),
         child: child!,
       ),
@@ -76,7 +78,11 @@ class _DatePickerFieldState extends State<DatePickerField> {
           prefixIcon: const Icon(Icons.calendar_today_outlined, size: 20),
           suffixIcon: widget.value != null
               ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20, color: AppColors.textSecondary),
+                  icon: const Icon(
+                    Icons.clear,
+                    size: 20,
+                    color: AppColors.textSecondary,
+                  ),
                   onPressed: _clearDate,
                   tooltip: 'Clear date',
                 )
@@ -97,9 +103,13 @@ class _DatePickerFieldState extends State<DatePickerField> {
           fillColor: AppColors.glassFill,
         ),
         child: Text(
-          widget.value != null ? _dateFormat.format(widget.value!) : 'Select date',
+          widget.value != null
+              ? _dateFormat.format(widget.value!)
+              : 'Select date',
           style: TextStyle(
-            color: widget.value != null ? AppColors.textPrimary : AppColors.textSecondary,
+            color: widget.value != null
+                ? AppColors.textPrimary
+                : AppColors.textSecondary,
             fontSize: 14,
           ),
         ),
