@@ -25,6 +25,9 @@ import '../../shared/widgets/loading_view.dart';
 import '../../shared/widgets/mono_text.dart';
 import '../../shared/widgets/section_header.dart';
 import '../../shared/widgets/status_chip.dart';
+import 'package:mobile_app/features/tasks/widgets/due_date_label.dart';
+import 'package:mobile_app/features/tasks/widgets/priority_badge.dart';
+import 'package:mobile_app/features/tasks/widgets/task_card.dart';
 import '../auth/widgets/auth_header.dart';
 import '../auth/widgets/status_message_view.dart';
 import '../projects/widgets/candidate_tile.dart';
@@ -1044,68 +1047,151 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
               ],
             ),
           ),
-          // 11. Task Feature Widgets
-          const SectionHeader(title: '11. Task Feature Widgets'),
-          GlassCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'TaskListTile — with assignee',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                TaskListTile(
-                  task: Task(
-                    id: 't1',
-                    title: 'Design new dashboard layout',
-                    status: TaskStatus.todo,
-                    priority: TaskPriority.high,
-                    projectId: 'p1',
-                    assignee: UserRef(id: 'u1', name: 'Alice Johnson'),
-                    createdAt: DateTime(2024, 1, 15),
-                  ),
-                  onTap: () {},
-                ),
-                const Divider(color: AppColors.divider, height: AppSpacing.md),
-                const Text(
-                  'TaskListTile — unassigned with long title',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                TaskListTile(
-                  task: Task(
-                    id: 't2',
-                    title: 'This is a very long task title that should be truncated properly in the UI',
-                    status: TaskStatus.inProgress,
-                    priority: TaskPriority.medium,
-                    projectId: 'p1',
-                    assignee: null,
-                    createdAt: DateTime(2024, 1, 16),
-                  ),
-                  onTap: () {},
-                ),
-                const Divider(color: AppColors.divider, height: AppSpacing.md),
-                const Text(
-                  'TaskListTile — completed task',
-                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                TaskListTile(
-                  task: Task(
-                    id: 't3',
-                    title: 'Fix login bug',
-                    status: TaskStatus.done,
-                    priority: TaskPriority.low,
-                    projectId: 'p1',
-                    assignee: UserRef(id: 'u2', name: 'Bob Smith'),
-                    createdAt: DateTime(2024, 1, 10),
-                  ),
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
+//
+// 11. Task Feature Widgets
+const SectionHeader(title: '11. Task Feature Widgets'),
+GlassCard(
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'TaskListTile — with assignee',
+        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+      ),
+      const SizedBox(height: AppSpacing.md),
+      TaskListTile(
+        task: Task(
+          id: 't1',
+          title: 'Design new dashboard layout',
+          status: TaskStatus.todo,
+          priority: TaskPriority.high,
+          projectId: 'p1',
+          assignee: UserRef(id: 'u1', name: 'Alice Johnson'),
+          createdAt: DateTime(2024, 1, 15),
+        ),
+        onTap: () {},
+      ),
+      const Divider(color: AppColors.divider, height: AppSpacing.md),
+      const Text(
+        'TaskListTile — unassigned with long title',
+        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+      ),
+      const SizedBox(height: AppSpacing.md),
+      TaskListTile(
+        task: Task(
+          id: 't2',
+          title: 'This is a very long task title that should be truncated properly in the UI',
+          status: TaskStatus.inProgress,
+          priority: TaskPriority.medium,
+          projectId: 'p1',
+          assignee: null,
+          createdAt: DateTime(2024, 1, 16),
+        ),
+        onTap: () {},
+      ),
+      const Divider(color: AppColors.divider, height: AppSpacing.md),
+      const Text(
+        'TaskListTile — completed task',
+        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+      ),
+      const SizedBox(height: AppSpacing.md),
+      TaskListTile(
+        task: Task(
+          id: 't3',
+          title: 'Fix login bug',
+          status: TaskStatus.done,
+          priority: TaskPriority.low,
+          projectId: 'p1',
+          assignee: UserRef(id: 'u2', name: 'Bob Smith'),
+          createdAt: DateTime(2024, 1, 10),
+        ),
+        onTap: () {},
+      ),
+      const Divider(color: AppColors.divider, height: AppSpacing.md),
+      const Text(
+        'DueDateLabel — with date',
+        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+      ),
+      const SizedBox(height: AppSpacing.md),
+      DueDateLabel(
+        date: DateTime(2024, 10, 25),
+        overdue: false,
+      ),
+      const SizedBox(height: AppSpacing.md),
+      DueDateLabel(
+        date: DateTime.now().add(const Duration(days: 1)),
+        overdue: false,
+      ),
+      const SizedBox(height: AppSpacing.md),
+      DueDateLabel(
+        date: DateTime.now().add(const Duration(days: -1)),
+        overdue: true,
+      ),
+      const SizedBox(height: AppSpacing.md),
+      const Text(
+        'PriorityBadge — low / medium / high',
+        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+      ),
+      const SizedBox(height: AppSpacing.md),
+      Row(
+        children: [
+          PriorityBadge(priority: TaskPriority.low),
+          const SizedBox(width: AppSpacing.sm),
+          PriorityBadge(priority: TaskPriority.medium),
+          const SizedBox(width: AppSpacing.sm),
+          PriorityBadge(priority: TaskPriority.high),
+        ],
+      ),
+      const SizedBox(height: AppSpacing.md),
+      const Text(
+        'TaskCard — with all fields',
+        style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+      ),
+      const SizedBox(height: AppSpacing.md),
+      TaskCard(
+        task: Task(
+          id: 't4',
+          title: 'Design new dashboard layout',
+          status: TaskStatus.todo,
+          priority: TaskPriority.high,
+          projectId: 'p1',
+          assignee: UserRef(id: 'u1', name: 'Alice Johnson'),
+          createdAt: DateTime(2024, 1, 15),
+          dueDate: DateTime(2024, 10, 20),
+        ),
+        onTap: () {},
+      ),
+      const SizedBox(height: AppSpacing.md),
+      TaskCard(
+        task: Task(
+          id: 't5',
+          title: 'Fix login bug',
+          status: TaskStatus.done,
+          priority: TaskPriority.low,
+          projectId: 'p1',
+          assignee: UserRef(id: 'u2', name: 'Bob Smith'),
+          createdAt: DateTime(2024, 1, 10),
+          dueDate: null,
+        ),
+        onTap: () {},
+      ),
+      const SizedBox(height: AppSpacing.md),
+      TaskCard(
+        task: Task(
+          id: 't6',
+          title: 'This is a very long task title that should be truncated properly in the UI and wrap to multiple lines if needed',
+          status: TaskStatus.inProgress,
+          priority: TaskPriority.medium,
+          projectId: 'p1',
+          assignee: null,
+          createdAt: DateTime(2024, 1, 16),
+          dueDate: DateTime(2024, 11, 1),
+        ),
+        onTap: () {},
+      ),
+    ],
+  ),
+),
         ],
       ),
     );

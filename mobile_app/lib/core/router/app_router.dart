@@ -23,6 +23,7 @@ import 'package:mobile_app/features/projects/screens/edit_project_screen.dart';
 import 'package:mobile_app/features/projects/screens/project_detail_screen.dart';
 import 'package:mobile_app/features/projects/screens/projects_screen.dart';
 import 'package:mobile_app/features/tasks/screens/my_tasks_screen.dart';
+import 'package:mobile_app/features/tasks/screens/task_detail_screen.dart';
 import 'package:mobile_app/shared/models/user.dart';
 import 'package:mobile_app/shared/widgets/error_view.dart';
 
@@ -100,6 +101,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/projects/:id/edit',
         name: 'project-edit',
         builder: (context, state) => EditProjectScreen(projectId: state.pathParameters['id']!),
+      ),
+      // Task detail (Task 19)
+      GoRoute(
+        path: '/tasks/:id',
+        name: 'task-detail',
+        builder: (context, state) => TaskDetailScreen(taskId: state.pathParameters['id']!),
       ),
       // Design preview gallery (debug only)
       if (const bool.fromEnvironment('dart.vm.product') == false)
@@ -200,6 +207,7 @@ String? _redirectLogic(AsyncValue<User?> authState, String location) {
         ProjectsScreen.routeName,
         MyTasksScreen.routeName,
         ProfileScreen.routeName,
+        TaskDetailScreen.routeName,
       ];
       // Allow exact matches or sub-routes (e.g., /projects/new, /projects/:id/edit)
       final isValidRoute = validShellRoutes.any(
