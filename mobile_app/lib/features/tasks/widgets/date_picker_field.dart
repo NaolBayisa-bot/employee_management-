@@ -52,7 +52,9 @@ class _DatePickerFieldState extends State<DatePickerField> {
             surface: AppColors.surfaceContainer,
             onSurface: AppColors.textPrimary,
           ),
-          dialogBackgroundColor: AppColors.surfaceContainer,
+          dialogTheme: DialogThemeData(
+            backgroundColor: AppColors.surfaceContainer,
+          ),
         ),
         child: child!,
       ),

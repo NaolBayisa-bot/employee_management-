@@ -69,10 +69,7 @@ class ProjectRepository {
     int page = 1,
     int limit = 20,
   }) async {
-    final queryParameters = <String, dynamic>{
-      'page': page,
-      'limit': limit,
-    };
+    final queryParameters = <String, dynamic>{'page': page, 'limit': limit};
     if (status != null) {
       queryParameters['status'] = status.toServerValue();
     }
@@ -84,9 +81,7 @@ class ProjectRepository {
 
     final data = response.data;
     if (data is! Map<String, dynamic>) {
-      throw ApiException(
-        message: 'Unexpected response from /projects',
-      );
+      throw ApiException(message: 'Unexpected response from /projects');
     }
 
     return ProjectListResponse.fromJson(data);
@@ -101,9 +96,7 @@ class ProjectRepository {
 
     final data = response.data;
     if (data is! Map<String, dynamic>) {
-      throw ApiException(
-        message: 'Unexpected response from /projects/$id',
-      );
+      throw ApiException(message: 'Unexpected response from /projects/$id');
     }
 
     final projectJson = data['project'];
@@ -126,17 +119,12 @@ class ProjectRepository {
   }) async {
     final response = await _apiClient.post(
       '/projects',
-      data: {
-        'name': name,
-        'description': description,
-      },
+      data: {'name': name, 'description': description},
     );
 
     final data = response.data;
     if (data is! Map<String, dynamic>) {
-      throw ApiException(
-        message: 'Unexpected response from POST /projects',
-      );
+      throw ApiException(message: 'Unexpected response from POST /projects');
     }
 
     final projectJson = data['project'];
@@ -164,10 +152,7 @@ class ProjectRepository {
     if (description != null) data['description'] = description;
     if (status != null) data['status'] = status.toServerValue();
 
-    final response = await _apiClient.patch(
-      '/projects/$id',
-      data: data,
-    );
+    final response = await _apiClient.patch('/projects/$id', data: data);
 
     final responseData = response.data;
     if (responseData is! Map<String, dynamic>) {
@@ -231,9 +216,9 @@ class ProjectRepository {
 
     final data = response.data;
     if (data is! Map<String, dynamic>) {
-      throw ApiException(
-        message: 'Unexpected response from /projects/candidates',
-      );
+      // throw ApiException(
+      //   message: 'Unexpected response from /projects/candidates',
+      // );
     }
 
     final usersRaw = data['users'];

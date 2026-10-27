@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_app/features/design_preview/design_preview_screen.dart';
-import 'package:mobile_app/core/theme/app_theme.dart';
 import 'package:mobile_app/features/tasks/widgets/due_date_label.dart';
 import 'package:mobile_app/features/tasks/widgets/priority_badge.dart';
 import 'package:mobile_app/features/tasks/widgets/task_card.dart';
