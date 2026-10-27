@@ -21,6 +21,7 @@ class ProjectForm extends StatefulWidget {
     this.onSubmit,
     this.nameFocusNode,
     this.descriptionFocusNode,
+    this.fieldErrors,
   });
 
   final String initialName;
@@ -30,6 +31,7 @@ class ProjectForm extends StatefulWidget {
   final ProjectFormSubmit? onSubmit;
   final FocusNode? nameFocusNode;
   final FocusNode? descriptionFocusNode;
+  final Map<String, String>? fieldErrors;
 
   @override
   State<ProjectForm> createState() => _ProjectFormState();
@@ -65,6 +67,10 @@ class _ProjectFormState extends State<ProjectForm> {
     if (text.length > 150) {
       return 'Name must not exceed 150 characters';
     }
+    // Check for server-side field error
+    if (widget.fieldErrors?.containsKey('name') ?? false) {
+      return widget.fieldErrors!['name'];
+    }
     return null;
   }
 
@@ -72,6 +78,10 @@ class _ProjectFormState extends State<ProjectForm> {
     final text = value?.trim() ?? '';
     if (text.length > 2000) {
       return 'Description must not exceed 2000 characters';
+    }
+    // Check for server-side field error
+    if (widget.fieldErrors?.containsKey('description') ?? false) {
+      return widget.fieldErrors!['description'];
     }
     return null;
   }

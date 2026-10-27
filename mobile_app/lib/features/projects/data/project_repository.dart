@@ -115,6 +115,76 @@ class ProjectRepository {
     return Project.fromJson(Map<String, dynamic>.from(projectJson));
   }
 
+  /// Creates a new project.
+  ///
+  /// POST /projects
+  /// Returns the created project with owner info.
+  Future<Project> createProject({
+    required String name,
+    required String description,
+  }) async {
+    final response = await _apiClient.post(
+      '/projects',
+      data: {
+        'name': name,
+        'description': description,
+      },
+    );
+
+    final data = response.data;
+    if (data is! Map<String, dynamic>) {
+      throw ApiException(
+        message: 'Unexpected response from POST /projects',
+      );
+    }
+
+    final projectJson = data['project'];
+    if (projectJson is! Map) {
+      throw ApiException(
+        message: 'Unexpected response format from POST /projects',
+      );
+    }
+
+    return Project.fromJson(Map<String, dynamic>.from(projectJson));
+  }
+
+  /// Updates an existing project.
+  ///
+  /// PATCH /projects/:id
+  /// Returns the updated project.
+  Future<Project> updateProject({
+    required String id,
+    String? name,
+    String? description,
+    ProjectStatus? status,
+  }) async {
+    final data = <String, dynamic>{};
+    if (name != null) data['name'] = name;
+    if (description != null) data['description'] = description;
+    if (status != null) data['status'] = status.toServerValue();
+
+    final response = await _apiClient.patch(
+      '/projects/$id',
+      data: data,
+    );
+
+    final responseData = response.data;
+    if (responseData is! Map<String, dynamic>) {
+      throw ApiException(
+        message: 'Unexpected response from PATCH /projects/$id',
+      );
+    }
+
+    final projectJson = responseData['project'];
+    if (projectJson is! Map) {
+      throw ApiException(
+        message: 'Unexpected response format from PATCH /projects/$id',
+      );
+    }
+
+    return Project.fromJson(Map<String, dynamic>.from(projectJson));
+  }
+
   /// Fetches tasks for a project.
   ///
   /// GET /projects/:id/tasks

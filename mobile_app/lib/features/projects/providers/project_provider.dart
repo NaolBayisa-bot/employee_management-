@@ -11,17 +11,20 @@ import '../data/project_repository.dart';
 
 /// Provider for projects filtered by status.
 /// Uses FutureProvider.family to allow different status filters.
-final projectsProvider = FutureProvider.family<List<Project>, ProjectStatus?>(
-  (ref, status) async {
-    final repository = ref.read(projectRepositoryProvider);
-    final response = await repository.getProjects(status: status);
-    return response.projects;
-  },
-);
+final projectsProvider = FutureProvider.family<List<Project>, ProjectStatus?>((
+  ref,
+  status,
+) async {
+  final repository = ref.read(projectRepositoryProvider);
+  final response = await repository.getProjects(status: status);
+  return response.projects;
+});
 
 /// Provider for the current project status filter.
 /// Default is null (All), but can be overridden to Active or Archived.
-final projectStatusFilterProvider = StateProvider<ProjectStatus?>((ref) => null);
+final projectStatusFilterProvider = StateProvider<ProjectStatus?>(
+  (ref) => null,
+);
 
 /// Combined provider that watches the filter and provides the matching projects.
 /// This is the main provider used by the UI.
@@ -36,17 +39,19 @@ final filteredProjectsProvider = FutureProvider<List<Project>>((ref) async {
 });
 
 /// Provider for a single project by ID.
-final projectProvider = FutureProvider.family<Project, String>(
-  (ref, projectId) async {
-    final repository = ref.read(projectRepositoryProvider);
-    return repository.getProject(projectId);
-  },
-);
+final projectProvider = FutureProvider.family<Project, String>((
+  ref,
+  projectId,
+) async {
+  final repository = ref.read(projectRepositoryProvider);
+  return repository.getProject(projectId);
+});
 
 /// Provider for project tasks by project ID.
-final projectTasksProvider = FutureProvider.family<List<Task>, String>(
-  (ref, projectId) async {
-    final repository = ref.read(projectRepositoryProvider);
-    return repository.getProjectTasks(projectId);
-  },
-);
+final projectTasksProvider = FutureProvider.family<List<Task>, String>((
+  ref,
+  projectId,
+) async {
+  final repository = ref.read(projectRepositoryProvider);
+  return repository.getProjectTasks(projectId);
+});

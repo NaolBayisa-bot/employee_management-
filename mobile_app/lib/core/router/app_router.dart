@@ -6,7 +6,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile_app/features/admin/screens/dashboard_screen.dart';
 import 'package:mobile_app/features/auth/providers/auth_provider.dart';
@@ -18,13 +17,13 @@ import 'package:mobile_app/features/auth/screens/waiting_approval_screen.dart';
 import 'package:mobile_app/features/design_preview/design_preview_screen.dart';
 import 'package:mobile_app/features/home/screens/main_shell.dart';
 import 'package:mobile_app/features/profile/screens/profile_screen.dart';
+import 'package:mobile_app/features/projects/screens/create_project_screen.dart';
+import 'package:mobile_app/features/projects/screens/edit_project_screen.dart';
 import 'package:mobile_app/features/projects/screens/project_detail_screen.dart';
 import 'package:mobile_app/features/projects/screens/projects_screen.dart';
 import 'package:mobile_app/features/tasks/screens/my_tasks_screen.dart';
 import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
 import 'package:mobile_app/shared/widgets/error_view.dart';
-import 'package:mobile_app/core/theme/app_tokens.dart';
 
 /// Provider for the [GoRouter] instance.
 /// Listens to [authProvider] for authentication state changes and redirects accordingly.
@@ -70,17 +69,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       // Main shell with role-based tabs (ACTIVE users)
       buildMainShellRoute(),
+      // Project creation (Task 15) - must come before /projects/:id to avoid
+      // 'new' being captured as the :id parameter
+      GoRoute(
+        path: '/projects/new',
+        name: 'project-create',
+        builder: (context, state) => const CreateProjectScreen(),
+      ),
       // Project detail (Task 14)
       GoRoute(
         path: '/projects/:id',
         name: 'project-detail',
         builder: (context, state) => ProjectDetailScreen(projectId: state.pathParameters['id']!),
       ),
-      // Project creation placeholder (Task 15)
+      // Project edit (Task 15)
       GoRoute(
-        path: '/projects/new',
-        name: 'project-create',
-        builder: (context, state) => const _ProjectCreatePlaceholder(),
+        path: '/projects/:id/edit',
+        name: 'project-edit',
+        builder: (context, state) => EditProjectScreen(projectId: state.pathParameters['id']!),
       ),
       // Design preview gallery (debug only)
       if (const bool.fromEnvironment('dart.vm.product') == false)
@@ -175,14 +181,18 @@ String? _redirectLogic(AsyncValue<User?> authState, String location) {
       break;
     case UserStatus.active:
       final homeRoute = _getHomeRouteForRole(user.role ?? Role.employee);
-      // Check if location is one of the valid shell routes
+      // Check if location is one of the valid shell routes or a sub-route
       final validShellRoutes = [
         DashboardScreen.routeName,
         ProjectsScreen.routeName,
         MyTasksScreen.routeName,
         ProfileScreen.routeName,
       ];
-      if (!validShellRoutes.contains(location)) {
+      // Allow exact matches or sub-routes (e.g., /projects/new, /projects/:id/edit)
+      final isValidRoute = validShellRoutes.any(
+        (route) => location == route || location.startsWith('$route/'),
+      );
+      if (!isValidRoute) {
         return homeRoute;
       }
       break;
@@ -190,49 +200,4 @@ String? _redirectLogic(AsyncValue<User?> authState, String location) {
 
   // No redirect needed
   return null;
-}
-
-/// Placeholder for project creation screen (Task 15).
-class _ProjectCreatePlaceholder extends StatelessWidget {
-  const _ProjectCreatePlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.add_circle_outline, size: 48, color: AppColors.primary),
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                'Create Project',
-                style: GoogleFonts.inter(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                'Project creation form (Task 15)',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              AppButton(
-                label: 'Back to Projects',
-                variant: AppButtonVariant.primary,
-                onPressed: () => context.go('/projects'),
-                fullWidth: false,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
