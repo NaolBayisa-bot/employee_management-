@@ -103,3 +103,98 @@ class TaskStatusUpdater extends AutoDisposeNotifier<AsyncValue<void>> {
 final taskStatusUpdaterProvider = AutoDisposeNotifierProvider<TaskStatusUpdater, AsyncValue<void>>(
   TaskStatusUpdater.new,
 );
+
+/// Notifier for creating a new task.
+/// Handles the creation, invalidates related providers, and provides loading/error state.
+class TaskCreator extends AutoDisposeNotifier<AsyncValue<void>> {
+  @override
+  AsyncValue<void> build() => const AsyncData(null);
+
+  /// Creates a new task and invalidates related providers.
+  /// Returns the created task on success, throws on failure.
+  Future<Task> createTask({
+    required String title,
+    required String description,
+    required String projectId,
+    String? assigneeId,
+    DateTime? dueDate,
+    required TaskPriority priority,
+  }) async {
+    state = const AsyncLoading();
+    try {
+      final repository = ref.read(taskRepositoryProvider);
+      final createdTask = await repository.createTask(
+        title: title,
+        description: description,
+        projectId: projectId,
+        assigneeId: assigneeId,
+        dueDate: dueDate,
+        priority: priority,
+      );
+
+      // Invalidate providers to refresh UI
+      ref.invalidate(myTasksProvider);
+      ref.invalidate(filteredMyTasksProvider);
+      // Note: projectTasksProvider is in project_provider.dart, invalidated via project detail screen
+
+      state = const AsyncData(null);
+      return createdTask;
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+      rethrow;
+    }
+  }
+}
+
+/// Provider for the task creator notifier.
+final createTaskProvider = AutoDisposeNotifierProvider<TaskCreator, AsyncValue<void>>(
+  TaskCreator.new,
+);
+
+/// Notifier for updating an existing task.
+/// Handles the update, invalidates related providers, and provides loading/error state.
+class TaskUpdater extends AutoDisposeNotifier<AsyncValue<void>> {
+  @override
+  AsyncValue<void> build() => const AsyncData(null);
+
+  /// Updates an existing task and invalidates related providers.
+  /// Returns the updated task on success, throws on failure.
+  Future<Task> updateTask({
+    required String id,
+    required String title,
+    required String description,
+    String? assigneeId,
+    DateTime? dueDate,
+    required TaskPriority priority,
+  }) async {
+    state = const AsyncLoading();
+    try {
+      final repository = ref.read(taskRepositoryProvider);
+      final updatedTask = await repository.updateTask(
+        id: id,
+        title: title,
+        description: description,
+        assigneeId: assigneeId,
+        dueDate: dueDate,
+        priority: priority,
+      );
+
+      // Invalidate providers to refresh UI
+      ref.invalidate(myTasksProvider);
+      ref.invalidate(filteredMyTasksProvider);
+      ref.invalidate(taskProvider(id));
+      // Note: projectTasksProvider is in project_provider.dart
+
+      state = const AsyncData(null);
+      return updatedTask;
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+      rethrow;
+    }
+  }
+}
+
+/// Provider for the task updater notifier.
+final updateTaskProvider = AutoDisposeNotifierProvider<TaskUpdater, AsyncValue<void>>(
+  TaskUpdater.new,
+);

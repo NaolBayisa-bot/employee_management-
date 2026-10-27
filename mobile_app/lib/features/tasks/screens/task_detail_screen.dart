@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile_app/core/theme/app_tokens.dart';
@@ -50,12 +51,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
             ? [
                 IconButton(
                   icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    // Placeholder for Task 21 - Edit task
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Edit task coming in Task 21')),
-                    );
-                  },
+                  onPressed: () => context.go('/tasks/${widget.taskId}/edit'),
                   tooltip: 'Edit task',
                 ),
               ]

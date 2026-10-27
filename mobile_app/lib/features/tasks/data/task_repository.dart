@@ -6,6 +6,8 @@
 //   (with optional status query parameter: TODO, IN_PROGRESS, DONE)
 //   GET  /tasks/:id             -> { task } (full shape with project, assignee, createdBy)
 //   PATCH /tasks/:id/status     -> { task } (expects { status: 'TODO' | 'IN_PROGRESS' | 'DONE' })
+//   POST /tasks                 -> { task } (create)
+//   PATCH /tasks/:id            -> { task } (update)
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -101,6 +103,115 @@ class TaskRepository {
     }
 
     return Task.fromJson(Map<String, dynamic>.from(taskJson));
+  }
+
+  /// Creates a new task.
+  ///
+  /// POST /tasks with body { title, description, projectId, assigneeId, dueDate, priority }
+  /// dueDate formatted as YYYY-MM-DD, null to clear.
+  /// Returns the created task.
+  Future<Task> createTask({
+    required String title,
+    required String description,
+    required String projectId,
+    String? assigneeId,
+    DateTime? dueDate,
+    required TaskPriority priority,
+  }) async {
+    final data = <String, dynamic>{
+      'title': title,
+      'description': description,
+      'projectId': projectId,
+      'priority': priority.toServerValue(),
+    };
+    if (assigneeId != null && assigneeId.isNotEmpty) {
+      data['assigneeId'] = assigneeId;
+    }
+    if (dueDate != null) {
+      data['dueDate'] = _formatDateOnly(dueDate);
+    } else {
+      data['dueDate'] = null;
+    }
+
+    final response = await _apiClient.post(
+      '/tasks',
+      data: data,
+    );
+
+    final responseData = response.data;
+    if (responseData is! Map<String, dynamic>) {
+      throw ApiException(
+        message: 'Unexpected response from POST /tasks',
+      );
+    }
+
+    final taskJson = responseData['task'];
+    if (taskJson is! Map) {
+      throw ApiException(
+        message: 'Unexpected response format from POST /tasks',
+      );
+    }
+
+    return Task.fromJson(Map<String, dynamic>.from(taskJson));
+  }
+
+  /// Updates an existing task.
+  ///
+  /// PATCH /tasks/:id with body { title, description, assigneeId, dueDate, priority }
+  /// dueDate formatted as YYYY-MM-DD, null to clear.
+  /// Returns the updated task.
+  Future<Task> updateTask({
+    required String id,
+    required String title,
+    required String description,
+    String? assigneeId,
+    DateTime? dueDate,
+    required TaskPriority priority,
+  }) async {
+    final data = <String, dynamic>{
+      'title': title,
+      'description': description,
+      'priority': priority.toServerValue(),
+    };
+    if (assigneeId != null && assigneeId.isNotEmpty) {
+      data['assigneeId'] = assigneeId;
+    } else {
+      data['assigneeId'] = null;
+    }
+    if (dueDate != null) {
+      data['dueDate'] = _formatDateOnly(dueDate);
+    } else {
+      data['dueDate'] = null;
+    }
+
+    final response = await _apiClient.patch(
+      '/tasks/$id',
+      data: data,
+    );
+
+    final responseData = response.data;
+    if (responseData is! Map<String, dynamic>) {
+      throw ApiException(
+        message: 'Unexpected response from PATCH /tasks/$id',
+      );
+    }
+
+    final taskJson = responseData['task'];
+    if (taskJson is! Map) {
+      throw ApiException(
+        message: 'Unexpected response format from PATCH /tasks/$id',
+      );
+    }
+
+    return Task.fromJson(Map<String, dynamic>.from(taskJson));
+  }
+
+  /// Formats a [DateTime] as YYYY-MM-DD for backend.
+  String _formatDateOnly(DateTime date) {
+    final y = date.year.toString().padLeft(4, '0');
+    final m = date.month.toString().padLeft(2, '0');
+    final d = date.day.toString().padLeft(2, '0');
+    return '$y-$m-$d';
   }
 }
 

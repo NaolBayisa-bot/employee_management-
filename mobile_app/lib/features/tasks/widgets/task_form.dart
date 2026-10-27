@@ -33,9 +33,16 @@ class TaskFormValues {
         'title': title,
         'description': description,
         'assigneeId': assigneeId,
-        'dueDate': dueDate,
+        'dueDate': dueDate == null ? null : _formatDateOnly(dueDate!),
         'priority': priority.toServerValue(),
       };
+
+  static String _formatDateOnly(DateTime date) {
+    final y = date.year.toString().padLeft(4, '0');
+    final m = date.month.toString().padLeft(2, '0');
+    final d = date.day.toString().padLeft(2, '0');
+    return '$y-$m-$d';
+  }
 }
 
 typedef TaskFormSubmit = void Function(TaskFormValues values);

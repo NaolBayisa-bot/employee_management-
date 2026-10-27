@@ -22,6 +22,8 @@ import 'package:mobile_app/features/projects/screens/create_project_screen.dart'
 import 'package:mobile_app/features/projects/screens/edit_project_screen.dart';
 import 'package:mobile_app/features/projects/screens/project_detail_screen.dart';
 import 'package:mobile_app/features/projects/screens/projects_screen.dart';
+import 'package:mobile_app/features/tasks/screens/create_task_screen.dart';
+import 'package:mobile_app/features/tasks/screens/edit_task_screen.dart';
 import 'package:mobile_app/features/tasks/screens/my_tasks_screen.dart';
 import 'package:mobile_app/features/tasks/screens/task_detail_screen.dart';
 import 'package:mobile_app/shared/models/user.dart';
@@ -107,6 +109,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/tasks/:id',
         name: 'task-detail',
         builder: (context, state) => TaskDetailScreen(taskId: state.pathParameters['id']!),
+      ),
+      // Create task (Task 21) - must come before /tasks/:id to avoid :id capturing "new"
+      GoRoute(
+        path: '/projects/:projectId/tasks/new',
+        name: 'task-create',
+        builder: (context, state) => CreateTaskScreen(projectId: state.pathParameters['projectId']!),
+      ),
+      // Edit task (Task 21)
+      GoRoute(
+        path: '/tasks/:id/edit',
+        name: 'task-edit',
+        builder: (context, state) => EditTaskScreen(taskId: state.pathParameters['id']!),
       ),
       // Design preview gallery (debug only)
       if (const bool.fromEnvironment('dart.vm.product') == false)
@@ -208,6 +222,8 @@ String? _redirectLogic(AsyncValue<User?> authState, String location) {
         MyTasksScreen.routeName,
         ProfileScreen.routeName,
         TaskDetailScreen.routeName,
+        CreateTaskScreen.routeName,
+        EditTaskScreen.routeName,
       ];
       // Allow exact matches or sub-routes (e.g., /projects/new, /projects/:id/edit)
       final isValidRoute = validShellRoutes.any(
