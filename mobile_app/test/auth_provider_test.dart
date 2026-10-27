@@ -15,19 +15,19 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import 'package:mobile_app/core/network/api_client.dart';
-import 'package:mobile_app/core/network/api_exception.dart';
-import 'package:mobile_app/core/router/app_router.dart';
-import 'package:mobile_app/core/storage/secure_storage.dart';
-import 'package:mobile_app/features/auth/data/auth_repository.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/auth/screens/deactivated_screen.dart';
-import 'package:mobile_app/features/auth/screens/home_screen.dart';
-import 'package:mobile_app/features/auth/screens/login_screen.dart';
-import 'package:mobile_app/features/auth/screens/waiting_approval_screen.dart';
-import 'package:mobile_app/core/theme/app_theme.dart';
-import 'package:mobile_app/shared/widgets/app_background.dart';
-import 'package:mobile_app/shared/models/user.dart';
+import 'package:employee_management/core/network/api_client.dart';
+import 'package:employee_management/core/network/api_exception.dart';
+import 'package:employee_management/core/router/app_router.dart';
+import 'package:employee_management/core/storage/secure_storage.dart';
+import 'package:employee_management/features/auth/data/auth_repository.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/auth/screens/deactivated_screen.dart';
+import 'package:employee_management/features/auth/screens/home_screen.dart';
+import 'package:employee_management/features/auth/screens/login_screen.dart';
+import 'package:employee_management/features/auth/screens/waiting_approval_screen.dart';
+import 'package:employee_management/core/theme/app_theme.dart';
+import 'package:employee_management/shared/widgets/app_background.dart';
+import 'package:employee_management/shared/models/user.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // ---------------------------------------------------------------------------

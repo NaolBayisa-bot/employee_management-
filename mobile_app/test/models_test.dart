@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_app/shared/models.dart';
+import 'package:employee_management/shared/models.dart';
 
 void main() {
   String pad2(int v) => v.toString().padLeft(2, '0');

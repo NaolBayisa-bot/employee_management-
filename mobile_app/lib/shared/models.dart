@@ -1,7 +1,7 @@
 // Domain models barrel export.
 //
 // Re-export here so callers and tests can import everything from a single uri:
-//   import 'package:mobile_app/shared/models.dart';
+//   import 'package:employee_management/shared/models.dart';
 export 'models/dashboard_stats.dart';
 export 'models/project.dart';
 export 'models/task.dart';

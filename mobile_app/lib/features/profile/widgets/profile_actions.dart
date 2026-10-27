@@ -5,8 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/shared/widgets/app_button.dart';
 
 class ProfileActions extends ConsumerWidget {
   const ProfileActions({super.key});

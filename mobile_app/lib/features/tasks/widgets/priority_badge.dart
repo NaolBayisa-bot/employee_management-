@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/shared/models/task.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/shared/models/task.dart';
 
 /// A small colored badge with a priority label.
 class PriorityBadge extends StatelessWidget {

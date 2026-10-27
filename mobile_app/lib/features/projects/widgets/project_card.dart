@@ -6,10 +6,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/shared/models/project.dart';
-import 'package:mobile_app/shared/widgets/glass_card.dart';
-import 'package:mobile_app/shared/widgets/status_chip.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/shared/models/project.dart';
+import 'package:employee_management/shared/widgets/glass_card.dart';
+import 'package:employee_management/shared/widgets/status_chip.dart';
 
 class ProjectCard extends StatelessWidget {
   const ProjectCard({

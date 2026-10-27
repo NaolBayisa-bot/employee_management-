@@ -5,9 +5,9 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/shared/widgets/glass_card.dart';
-import 'package:mobile_app/shared/widgets/loading_view.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/shared/widgets/glass_card.dart';
+import 'package:employee_management/shared/widgets/loading_view.dart';
 
 class StatCard extends StatelessWidget {
   const StatCard({

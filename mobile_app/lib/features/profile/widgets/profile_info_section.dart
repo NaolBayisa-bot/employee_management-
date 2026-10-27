@@ -5,10 +5,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/glass_card.dart';
-import 'package:mobile_app/shared/widgets/info_row.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/glass_card.dart';
+import 'package:employee_management/shared/widgets/info_row.dart';
 
 class ProfileInfoSection extends StatelessWidget {
   const ProfileInfoSection({

@@ -9,19 +9,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/tasks/providers/task_provider.dart';
-import 'package:mobile_app/features/tasks/widgets/priority_badge.dart';
-import 'package:mobile_app/features/tasks/widgets/task_status_selector.dart';
-import 'package:mobile_app/features/tasks/widgets/due_date_label.dart';
-import 'package:mobile_app/shared/models/task.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/app_snack_bar.dart';
-import 'package:mobile_app/shared/widgets/error_view.dart';
-import 'package:mobile_app/shared/widgets/info_row.dart';
-import 'package:mobile_app/shared/widgets/loading_view.dart';
-import 'package:mobile_app/core/network/api_exception.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/tasks/providers/task_provider.dart';
+import 'package:employee_management/features/tasks/widgets/priority_badge.dart';
+import 'package:employee_management/features/tasks/widgets/task_status_selector.dart';
+import 'package:employee_management/features/tasks/widgets/due_date_label.dart';
+import 'package:employee_management/shared/models/task.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/app_snack_bar.dart';
+import 'package:employee_management/shared/widgets/error_view.dart';
+import 'package:employee_management/shared/widgets/info_row.dart';
+import 'package:employee_management/shared/widgets/loading_view.dart';
+import 'package:employee_management/core/network/api_exception.dart';
 
 class TaskDetailScreen extends ConsumerStatefulWidget {
   const TaskDetailScreen({super.key, required this.taskId});

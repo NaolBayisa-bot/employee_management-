@@ -6,11 +6,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/auth/widgets/status_message_view.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
-import 'package:mobile_app/shared/widgets/app_snack_bar.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/auth/widgets/status_message_view.dart';
+import 'package:employee_management/shared/widgets/app_button.dart';
+import 'package:employee_management/shared/widgets/app_snack_bar.dart';
 
 class WaitingApprovalScreen extends ConsumerStatefulWidget {
   const WaitingApprovalScreen({super.key});

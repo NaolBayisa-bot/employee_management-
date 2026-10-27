@@ -10,13 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:mobile_app/features/admin/screens/dashboard_screen.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/profile/screens/profile_screen.dart';
-import 'package:mobile_app/features/projects/screens/projects_screen.dart';
-import 'package:mobile_app/features/tasks/screens/my_tasks_screen.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/glass_navigation_bar.dart';
+import 'package:employee_management/features/admin/screens/dashboard_screen.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/profile/screens/profile_screen.dart';
+import 'package:employee_management/features/projects/screens/projects_screen.dart';
+import 'package:employee_management/features/tasks/screens/my_tasks_screen.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/glass_navigation_bar.dart';
 
 /// Main shell widget with role-based navigation tabs.
 class MainShell extends ConsumerStatefulWidget {

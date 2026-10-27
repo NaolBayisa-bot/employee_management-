@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_app/core/network/api_exception.dart';
+import 'package:employee_management/core/network/api_exception.dart';
 
 void main() {
   group('ApiException.fromDio', () {

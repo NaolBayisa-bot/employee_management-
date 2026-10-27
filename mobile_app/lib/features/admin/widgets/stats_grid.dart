@@ -4,9 +4,9 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/features/admin/widgets/stat_card.dart';
-import 'package:mobile_app/shared/models/dashboard_stats.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/features/admin/widgets/stat_card.dart';
+import 'package:employee_management/shared/models/dashboard_stats.dart';
 
 class StatsGrid extends StatelessWidget {
   const StatsGrid({

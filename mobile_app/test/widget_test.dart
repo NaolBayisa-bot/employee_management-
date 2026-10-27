@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:mobile_app/core/storage/secure_storage.dart';
-import 'package:mobile_app/main.dart';
+import 'package:employee_management/core/storage/secure_storage.dart';
+import 'package:employee_management/main.dart';
 
 /// In-memory TokenStorage so the widget test never touches the OS keychain
 /// (unavailable under flutter_test) and so the app starts logged out.

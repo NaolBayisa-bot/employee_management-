@@ -8,16 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/tasks/providers/task_provider.dart';
-import 'package:mobile_app/features/tasks/widgets/task_form.dart';
-import 'package:mobile_app/shared/models/task.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/app_snack_bar.dart';
-import 'package:mobile_app/shared/widgets/error_view.dart';
-import 'package:mobile_app/shared/widgets/loading_view.dart';
-import 'package:mobile_app/core/network/api_exception.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/tasks/providers/task_provider.dart';
+import 'package:employee_management/features/tasks/widgets/task_form.dart';
+import 'package:employee_management/shared/models/task.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/app_snack_bar.dart';
+import 'package:employee_management/shared/widgets/error_view.dart';
+import 'package:employee_management/shared/widgets/loading_view.dart';
+import 'package:employee_management/core/network/api_exception.dart';
 
 class EditTaskScreen extends ConsumerStatefulWidget {
   const EditTaskScreen({super.key, required this.taskId});

@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/auth/widgets/auth_header.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/auth/widgets/auth_header.dart';
+import 'package:employee_management/shared/widgets/app_button.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});

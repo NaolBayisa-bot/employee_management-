@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/profile/widgets/profile_actions.dart';
-import 'package:mobile_app/features/profile/widgets/profile_header.dart';
-import 'package:mobile_app/features/profile/widgets/profile_info_section.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/profile/widgets/profile_actions.dart';
+import 'package:employee_management/features/profile/widgets/profile_header.dart';
+import 'package:employee_management/features/profile/widgets/profile_info_section.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/app_button.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});

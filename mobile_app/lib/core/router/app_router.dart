@@ -7,27 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:mobile_app/features/admin/screens/dashboard_screen.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/auth/screens/deactivated_screen.dart';
-import 'package:mobile_app/features/auth/screens/login_screen.dart';
-import 'package:mobile_app/features/auth/screens/register_screen.dart';
-import 'package:mobile_app/features/auth/screens/splash_screen.dart';
-import 'package:mobile_app/features/auth/screens/waiting_approval_screen.dart';
-import 'package:mobile_app/features/design_preview/design_preview_screen.dart';
-import 'package:mobile_app/features/home/screens/main_shell.dart';
-import 'package:mobile_app/features/profile/screens/profile_screen.dart';
-import 'package:mobile_app/features/projects/screens/add_members_screen.dart';
-import 'package:mobile_app/features/projects/screens/create_project_screen.dart';
-import 'package:mobile_app/features/projects/screens/edit_project_screen.dart';
-import 'package:mobile_app/features/projects/screens/project_detail_screen.dart';
-import 'package:mobile_app/features/projects/screens/projects_screen.dart';
-import 'package:mobile_app/features/tasks/screens/create_task_screen.dart';
-import 'package:mobile_app/features/tasks/screens/edit_task_screen.dart';
-import 'package:mobile_app/features/tasks/screens/my_tasks_screen.dart';
-import 'package:mobile_app/features/tasks/screens/task_detail_screen.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/error_view.dart';
+import 'package:employee_management/features/admin/screens/dashboard_screen.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/auth/screens/deactivated_screen.dart';
+import 'package:employee_management/features/auth/screens/login_screen.dart';
+import 'package:employee_management/features/auth/screens/register_screen.dart';
+import 'package:employee_management/features/auth/screens/splash_screen.dart';
+import 'package:employee_management/features/auth/screens/waiting_approval_screen.dart';
+import 'package:employee_management/features/home/screens/main_shell.dart';
+import 'package:employee_management/features/profile/screens/profile_screen.dart';
+import 'package:employee_management/features/projects/screens/add_members_screen.dart';
+import 'package:employee_management/features/projects/screens/create_project_screen.dart';
+import 'package:employee_management/features/projects/screens/edit_project_screen.dart';
+import 'package:employee_management/features/projects/screens/project_detail_screen.dart';
+import 'package:employee_management/features/projects/screens/projects_screen.dart';
+import 'package:employee_management/features/tasks/screens/create_task_screen.dart';
+import 'package:employee_management/features/tasks/screens/edit_task_screen.dart';
+import 'package:employee_management/features/tasks/screens/my_tasks_screen.dart';
+import 'package:employee_management/features/tasks/screens/task_detail_screen.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/error_view.dart';
 
 /// Provider for the [GoRouter] instance.
 /// Listens to [authProvider] for authentication state changes and redirects accordingly.
@@ -122,13 +121,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'task-edit',
         builder: (context, state) => EditTaskScreen(taskId: state.pathParameters['id']!),
       ),
-      // Design preview gallery (debug only)
-      if (const bool.fromEnvironment('dart.vm.product') == false)
-        GoRoute(
-          path: DesignPreviewScreen.routeName,
-          name: 'design-preview',
-          builder: (context, state) => const DesignPreviewScreen(),
-        ),
     ],
     // Error page builder for route-level errors (e.g., 404)
     errorBuilder: (context, state) => Scaffold(

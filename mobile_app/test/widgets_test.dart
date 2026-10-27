@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/core/theme/app_theme.dart';
-import 'package:mobile_app/features/projects/widgets/project_card.dart';
-import 'package:mobile_app/features/projects/widgets/project_form.dart';
-import 'package:mobile_app/shared/models/project.dart';
-import 'package:mobile_app/shared/models/task.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/app_background.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
-import 'package:mobile_app/shared/widgets/app_text_field.dart';
-import 'package:mobile_app/shared/widgets/avatar.dart';
-import 'package:mobile_app/shared/widgets/glass_card.dart';
-import 'package:mobile_app/shared/widgets/status_chip.dart';
+import 'package:employee_management/core/theme/app_theme.dart';
+import 'package:employee_management/features/projects/widgets/project_card.dart';
+import 'package:employee_management/features/projects/widgets/project_form.dart';
+import 'package:employee_management/shared/models/project.dart';
+import 'package:employee_management/shared/models/task.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/app_background.dart';
+import 'package:employee_management/shared/widgets/app_button.dart';
+import 'package:employee_management/shared/widgets/app_text_field.dart';
+import 'package:employee_management/shared/widgets/avatar.dart';
+import 'package:employee_management/shared/widgets/glass_card.dart';
+import 'package:employee_management/shared/widgets/status_chip.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

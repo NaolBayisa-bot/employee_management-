@@ -5,10 +5,10 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/avatar.dart';
-import 'package:mobile_app/shared/widgets/glass_dialogs.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/avatar.dart';
+import 'package:employee_management/shared/widgets/glass_dialogs.dart';
 
 class AssigneePicker extends StatelessWidget {
   const AssigneePicker({

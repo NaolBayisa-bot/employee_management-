@@ -9,18 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:mobile_app/core/network/api_exception.dart';
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/projects/data/project_repository.dart';
-import 'package:mobile_app/features/projects/providers/project_provider.dart';
-import 'package:mobile_app/features/projects/widgets/project_form.dart';
-import 'package:mobile_app/shared/models/project.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
-import 'package:mobile_app/shared/widgets/app_snack_bar.dart';
-import 'package:mobile_app/shared/widgets/glass_card.dart';
-import 'package:mobile_app/shared/widgets/glass_dialogs.dart';
+import 'package:employee_management/core/network/api_exception.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/projects/data/project_repository.dart';
+import 'package:employee_management/features/projects/providers/project_provider.dart';
+import 'package:employee_management/features/projects/widgets/project_form.dart';
+import 'package:employee_management/shared/models/project.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/app_button.dart';
+import 'package:employee_management/shared/widgets/app_snack_bar.dart';
+import 'package:employee_management/shared/widgets/glass_card.dart';
+import 'package:employee_management/shared/widgets/glass_dialogs.dart';
 
 class EditProjectScreen extends ConsumerStatefulWidget {
   const EditProjectScreen({super.key, required this.projectId});

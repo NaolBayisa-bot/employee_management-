@@ -1,4 +1,4 @@
-import 'package:mobile_app/shared/models/task.dart';
+import 'package:employee_management/shared/models/task.dart';
 
 /// Helper data class describing the three tabs used by My tasks.
 ///

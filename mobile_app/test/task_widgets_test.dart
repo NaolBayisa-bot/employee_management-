@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_app/features/tasks/widgets/due_date_label.dart';
-import 'package:mobile_app/features/tasks/widgets/priority_badge.dart';
-import 'package:mobile_app/features/tasks/widgets/task_card.dart';
-import 'package:mobile_app/features/tasks/widgets/task_status_selector.dart';
-import 'package:mobile_app/features/tasks/widgets/task_status_tabs.dart';
-import 'package:mobile_app/shared/models/task.dart';
-import 'package:mobile_app/shared/models/user.dart';
+import 'package:employee_management/features/tasks/widgets/due_date_label.dart';
+import 'package:employee_management/features/tasks/widgets/priority_badge.dart';
+import 'package:employee_management/features/tasks/widgets/task_card.dart';
+import 'package:employee_management/features/tasks/widgets/task_status_selector.dart';
+import 'package:employee_management/features/tasks/widgets/task_status_tabs.dart';
+import 'package:employee_management/shared/models/task.dart';
+import 'package:employee_management/shared/models/user.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

@@ -7,12 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/core/network/api_exception.dart';
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/features/auth/providers/auth_provider.dart';
-import 'package:mobile_app/features/auth/widgets/auth_header.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
-import 'package:mobile_app/shared/widgets/app_text_field.dart';
+import 'package:employee_management/core/network/api_exception.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/features/auth/providers/auth_provider.dart';
+import 'package:employee_management/features/auth/widgets/auth_header.dart';
+import 'package:employee_management/shared/widgets/app_button.dart';
+import 'package:employee_management/shared/widgets/app_text_field.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});

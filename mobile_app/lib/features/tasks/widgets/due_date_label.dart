@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
 
 /// A friendly date label with a calendar icon.
 ///

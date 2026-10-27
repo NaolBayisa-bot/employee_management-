@@ -4,9 +4,9 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
-import 'package:mobile_app/features/auth/widgets/auth_header.dart';
-import 'package:mobile_app/shared/widgets/loading_view.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
+import 'package:employee_management/features/auth/widgets/auth_header.dart';
+import 'package:employee_management/shared/widgets/loading_view.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

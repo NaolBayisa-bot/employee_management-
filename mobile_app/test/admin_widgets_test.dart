@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/features/admin/widgets/pending_user_tile.dart';
-import 'package:mobile_app/features/admin/widgets/stats_grid.dart';
-import 'package:mobile_app/shared/models/dashboard_stats.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
+import 'package:employee_management/features/admin/widgets/pending_user_tile.dart';
+import 'package:employee_management/features/admin/widgets/stats_grid.dart';
+import 'package:employee_management/shared/models/dashboard_stats.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/app_button.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

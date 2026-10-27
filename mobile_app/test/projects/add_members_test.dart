@@ -8,15 +8,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:mobile_app/core/network/api_client.dart';
-import 'package:mobile_app/core/network/api_exception.dart';
-import 'package:mobile_app/core/storage/secure_storage.dart';
-import 'package:mobile_app/features/auth/data/auth_repository.dart';
-import 'package:mobile_app/features/projects/data/project_repository.dart';
-import 'package:mobile_app/features/projects/screens/add_members_screen.dart';
-import 'package:mobile_app/features/projects/widgets/candidate_tile.dart';
-import 'package:mobile_app/shared/models/user.dart';
-import 'package:mobile_app/shared/widgets/app_button.dart';
+import 'package:employee_management/core/network/api_client.dart';
+import 'package:employee_management/core/network/api_exception.dart';
+import 'package:employee_management/core/storage/secure_storage.dart';
+import 'package:employee_management/features/auth/data/auth_repository.dart';
+import 'package:employee_management/features/projects/data/project_repository.dart';
+import 'package:employee_management/features/projects/screens/add_members_screen.dart';
+import 'package:employee_management/features/projects/widgets/candidate_tile.dart';
+import 'package:employee_management/shared/models/user.dart';
+import 'package:employee_management/shared/widgets/app_button.dart';
 
 String _b64(Map m) =>
     base64Url.encode(utf8.encode(jsonEncode(m))).replaceAll('=', '');

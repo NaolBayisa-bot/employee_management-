@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:mobile_app/core/theme/app_tokens.dart';
+import 'package:employee_management/core/theme/app_tokens.dart';
 
 class StatusMessageView extends StatelessWidget {
   const StatusMessageView({
