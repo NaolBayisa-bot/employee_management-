@@ -60,6 +60,18 @@ enum Role {
         return 'EMPLOYEE';
     }
   }
+
+  /// Human-readable label for UI display.
+  String get label {
+    switch (this) {
+      case Role.admin:
+        return 'Admin';
+      case Role.manager:
+        return 'Manager';
+      case Role.employee:
+        return 'Employee';
+    }
+  }
 }
 
 /// The status of a [User], matching backend ENUM('PENDING','ACTIVE','DEACTIVATED').

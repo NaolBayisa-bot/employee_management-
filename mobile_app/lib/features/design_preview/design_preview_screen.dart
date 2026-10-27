@@ -5,6 +5,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/shared/models/dashboard_stats.dart';
 
 import '../../core/theme/app_tokens.dart';
 import '../../shared/models/project.dart';
@@ -33,6 +34,9 @@ import 'package:mobile_app/features/tasks/widgets/assignee_picker.dart';
 import 'package:mobile_app/features/tasks/widgets/date_picker_field.dart';
 import 'package:mobile_app/features/tasks/widgets/priority_selector.dart';
 import 'package:mobile_app/features/tasks/widgets/task_form.dart';
+import 'package:mobile_app/features/admin/widgets/stat_card.dart';
+import 'package:mobile_app/features/admin/widgets/stats_grid.dart';
+import 'package:mobile_app/features/admin/widgets/pending_user_tile.dart';
 
 import '../auth/widgets/auth_header.dart';
 import '../auth/widgets/status_message_view.dart';
@@ -1585,6 +1589,201 @@ class _DesignPreviewScreenState extends State<DesignPreviewScreen> {
                   submitLabel: 'Saving...',
                   isLoading: true,
                   onSubmit: (v) {},
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+
+          // 12. Admin Feature Widgets (Task 22)
+          const SectionHeader(title: '12. Admin Feature Widgets (Task 22)'),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'StatCard — normal',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Row(
+                  children: [
+                    Expanded(
+                      child: StatCard(
+                        label: 'Total Users',
+                        value: 127,
+                        icon: Icons.people_outline,
+                        accent: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(
+                      child: StatCard(
+                        label: 'Pending',
+                        value: 8,
+                        icon: Icons.hourglass_empty_outlined,
+                        accent: AppColors.warning,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'StatCard — with accent colors',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Row(
+                  children: [
+                    Expanded(
+                      child: StatCard(
+                        label: 'Success',
+                        value: 42,
+                        icon: Icons.check_circle_outline,
+                        accent: AppColors.success,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(
+                      child: StatCard(
+                        label: 'Error',
+                        value: 3,
+                        icon: Icons.error_outline,
+                        accent: AppColors.error,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'StatCard — loading/skeleton',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Row(
+                  children: [
+                    Expanded(child: StatCard.loading()),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(child: StatCard.loading()),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'StatsGrid — with sample data',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                StatsGrid(
+                  stats: DashboardStats(
+                    totalUsers: 127,
+                    pendingUsers: 8,
+                    activeProjects: 12,
+                    openTasks: 45,
+                    doneTasks: 89,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'StatsGrid — empty/zero state',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                StatsGrid(stats: DashboardStats()),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          GlassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'PendingUserTile — normal',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                PendingUserTile(
+                  user: User(
+                    id: 'u1',
+                    name: 'John Doe',
+                    email: 'john.doe@example.com',
+                    role: null,
+                    status: UserStatus.pending,
+                    createdAt: DateTime(2024, 1, 15),
+                  ),
+                  selectedRole: Role.employee,
+                  onRoleChanged: (role) {},
+                  onApprove: () {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'PendingUserTile — Manager role selected',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                PendingUserTile(
+                  user: User(
+                    id: 'u2',
+                    name: 'Jane Smith',
+                    email: 'jane.smith@example.com',
+                    role: null,
+                    status: UserStatus.pending,
+                    createdAt: DateTime(2024, 2, 20),
+                  ),
+                  selectedRole: Role.manager,
+                  onRoleChanged: (role) {},
+                  onApprove: () {},
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'PendingUserTile — loading state',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                PendingUserTile(
+                  user: User(
+                    id: 'u3',
+                    name: 'Bob Wilson',
+                    email: 'bob.wilson@example.com',
+                    role: null,
+                    status: UserStatus.pending,
+                    createdAt: DateTime(2024, 3, 10),
+                  ),
+                  selectedRole: Role.employee,
+                  onRoleChanged: (role) {},
+                  onApprove: () {},
+                  loading: true,
                 ),
               ],
             ),
