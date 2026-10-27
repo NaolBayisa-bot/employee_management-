@@ -40,7 +40,8 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authProvider).valueOrNull;
-    final isManagerOrAdmin = user?.role == Role.manager || user?.role == Role.admin;
+    final isManagerOrAdmin =
+        user?.role == Role.manager || user?.role == Role.admin;
     final taskAsync = ref.watch(taskProvider(widget.taskId));
     final updaterState = ref.watch(taskStatusUpdaterProvider);
 
@@ -58,7 +59,8 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
             : null,
       ),
       body: taskAsync.when(
-        data: (task) => _buildTaskContent(task, user, isManagerOrAdmin, updaterState),
+        data: (task) =>
+            _buildTaskContent(task, user, isManagerOrAdmin, updaterState),
         loading: () => const LoadingView(message: 'Loading task...'),
         error: (error, stackTrace) => ErrorView(
           title: 'Failed to load task',
@@ -67,10 +69,14 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
         ),
       ),
     );
-}
+  }
 
-  Widget _buildTaskContent(Task task, User? user, bool isManagerOrAdmin,
-      AsyncValue<void> updaterState) {
+  Widget _buildTaskContent(
+    Task task,
+    User? user,
+    bool isManagerOrAdmin,
+    AsyncValue<void> updaterState,
+  ) {
     _selectedStatus ??= task.status;
     final canEditStatus = _canEditStatus(user, task);
 
@@ -115,8 +121,9 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                       color: task.description?.isNotEmpty == true
                           ? AppColors.textPrimary
                           : AppColors.textDisabled,
-                      fontStyle:
-                          task.description?.isNotEmpty == true ? null : FontStyle.italic,
+                      fontStyle: task.description?.isNotEmpty == true
+                          ? null
+                          : FontStyle.italic,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
@@ -151,12 +158,14 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
     });
 
     try {
-      await ref.read(taskStatusUpdaterProvider.notifier).updateStatus(
-            widget.taskId,
-            newStatus,
-          );
+      await ref
+          .read(taskStatusUpdaterProvider.notifier)
+          .updateStatus(widget.taskId, newStatus);
       if (mounted) {
-        AppSnackBar.showSuccess(context, 'Status updated to ${newStatus.label}');
+        AppSnackBar.showSuccess(
+          context,
+          'Status updated to ${newStatus.label}',
+        );
       }
     } catch (e) {
       // Revert on failure
@@ -164,7 +173,9 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
         _selectedStatus = previousStatus;
       });
       if (mounted) {
-        final message = e is ApiException ? e.message : 'Failed to update status';
+        final message = e is ApiException
+            ? e.message
+            : 'Failed to update status';
         AppSnackBar.showError(context, message);
       }
     }
@@ -209,7 +220,10 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
             icon: Icons.calendar_today_outlined,
             label: 'Due date',
             value: _formatDueDate(task.dueDate!, task.isOverdue),
-            valueWidget: DueDateLabel(date: task.dueDate, overdue: task.isOverdue),
+            valueWidget: DueDateLabel(
+              date: task.dueDate,
+              overdue: task.isOverdue,
+            ),
           ),
         // Priority
         InfoRow(
@@ -236,8 +250,18 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
     }
 
     final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}${overdue ? ' (Overdue)' : ''}';
   }

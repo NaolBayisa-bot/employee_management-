@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "flutter build apk --release",
+			"type": "shell",
+			"command": "flutter",
+			"args": [
+				"build",
+				"apk",
+				"--release"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/mobile_app"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "silent"
+			}
+		}
+	]
+}
